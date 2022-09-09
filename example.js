@@ -16,4 +16,3 @@ const showActiveDeals = async () => {
 
 showActiveDeals()
 
-console.log('Hello')
