@@ -16,7 +16,4 @@ const showActiveDeals = async () => {
 
 showActiveDeals()
 
-while(1)
-{
-	console.log("Hello")
-}
+console.log("Hello")
