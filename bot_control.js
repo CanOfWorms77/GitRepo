@@ -1,13 +1,16 @@
 const threeCommasAPI = require('3commas-api-node')
 
 var http = require('http'); // 1 - Import Node.js core module
+var fs = require('fs');
 
-/*var server = http.createServer(function (req, res) 
-{   // 2 - creating server
-
-    //handle incomming requests here..
-
-});*/
+let index = 0
+var server = http.createServer(function (req, res) 
+{   // 2 - creating server  
+    res.write(BotGroups[index]._bot1Id); //write a response to the client
+    index++
+    if (index > 1) index = 0
+    return res.end();
+});
 
 const MAX_NO_OF_BOTSPERGROUP = 4;
 
@@ -45,6 +48,7 @@ class botController
       this._dealId_Bot2 = 0;
       this._dealId_Bot3 = 0;
       this._dealId_Bot4 = 0;
+      this._newDealWaitTime = 0; // Mins
    }
 }
 
@@ -66,7 +70,7 @@ function mainLoop()
     {
         runBotEngine()
         mainLoop();
-    }, 2000) // 2 secs
+    }, 5000) // 5 secs
 }
 
 
@@ -127,20 +131,39 @@ const initBotData = async () =>
 
 const runBotEngine = async () =>
 {
-    // This runs every 2 seconds
+    // This runs every 5 seconds
 
-    //let deal1 = await api.getDeals({ bot_id: BotGroups[mainLoopIndex]._bot1Id, scope: 'active' }) 
-    let deal1 = await api.getDeal(BotGroups[mainLoopIndex]._dealId_Bot1) 
-    let deal2 = await api.getDeal(BotGroups[mainLoopIndex]._dealId_Bot2) 
-    //let deal3 = await api.getDeals({ bot_id: BotGroups[mainLoopIndex]._bot3Id, scope: 'active' }) 
-    //let deal4 = await api.getDeals({ bot_id: BotGroups[mainLoopIndex]._bot4Id, scope: 'active' })
+    let deal1 = "Not Assigned"
+    let deal2 = "Not Assigned"
+    let deal3 = "Not Assigned"
+    let deal4 = "Not Assigned"
 
-    console.log(deal1)
-    console.log(BotGroups[mainLoopIndex]._dealId_Bot1)
-    console.log(deal2)  
+    console.log("Group name: " + BotGroups[mainLoopIndex]._botGroupName)  
+
+    if (BotGroups[mainLoopIndex]._dealId_Bot1 != "No deal found")
+    {
+        deal1 = await api.getDeal(BotGroups[mainLoopIndex]._dealId_Bot1) 
+    }
+
+    if (BotGroups[mainLoopIndex]._dealId_Bot2 != "No deal found")
+    {
+        deal2 = await api.getDeal(BotGroups[mainLoopIndex]._dealId_Bot2) 
+    }
+    
+    if (BotGroups[mainLoopIndex]._dealId_Bot3 != "No deal found")
+    {
+        deal3 = await api.getDeal(BotGroups[mainLoopIndex]._dealId_Bot3) 
+    }
+
+    if (BotGroups[mainLoopIndex]._dealId_Bot4 != "No deal found")
+    {
+        deal4 = await api.getDeal(BotGroups[mainLoopIndex]._dealId_Bot4) 
+    }
+
 
     let botEnableFlag = false
 
+    // Check if Bot 2 should be started
     botEnableFlag = botCascader(deal1, deal2, BotGroups[mainLoopIndex]._percentDeviationToStart)
     if (botEnableFlag == true)
     {
@@ -149,8 +172,33 @@ const runBotEngine = async () =>
 
     botEnableFlag = false
 
+    // Check if Bot 3 should be started
+    botEnableFlag = botCascader(deal2, deal3, BotGroups[mainLoopIndex]._percentDeviationToStart)
+    if (botEnableFlag == true)
+    {
+        await api.botEnable(BotGroups[mainLoopIndex]._bot3Id)
+    }
 
-    console.log("botgroupno " + mainLoopIndex)  
+    botEnableFlag = false
+
+    // Check if Bot 3 should be started
+    botEnableFlag = botCascader(deal3, deal4, BotGroups[mainLoopIndex]._percentDeviationToStart)
+    if (botEnableFlag == true)
+    {
+        await api.botEnable(BotGroups[mainLoopIndex]._bot4Id)
+    }
+
+    // Check existing deal ids to see if complete
+    // decide if bots need to be disabled
+    // If complete - distibrute the profit to the base order and safety order
+    // set class data to no deal found
+
+    // Update new Deal Ids here
+    // get latest active deal data for this account
+    // use bot id matcher like in the initialise function
+
+
+    // Reset Loop Index  
     mainLoopIndex++
     if (BotDataTable[mainLoopIndex][0] == "LAST_ENTRY")
     {
@@ -164,56 +212,43 @@ const runBotEngine = async () =>
 function botCascader(botA_dealdata, botB_dealdata, botStartDeviation)
 {
     let enable = false
-    console.log(botA_dealdata.completed_safety_orders_count)
+    let bot_no = 0
 
-    // Are all the safety orders filled
-    if (botA_dealdata.completed_safety_orders_count == botA_dealdata.max_safety_orders)
+    // This is for debug purpose
+    for (let x = 0; x < MAX_NO_OF_BOTSPERGROUP; x++)
     {
-        console.log("Have I got here?")  
-        if (botA_dealdata.actual_profit_percentage <= botStartDeviation)
+        if (BotDataTable[mainLoopIndex][x + 2] == botA_dealdata.bot_id)
         {
-            console.log("What about here?")  
-            // Is there a already deal running on bot2
-            if (botB_dealdata.id == undefined)
+            bot_no = x + 1
+            console.log("Bot " + bot_no + ":" + botA_dealdata.bot_id)
+        }
+
+        if (BotDataTable[mainLoopIndex][x + 2] == botB_dealdata.bot_id)
+        {
+            bot_no = x + 1
+            console.log("Bot " + bot_no + ":" + botB_dealdata.bot_id)
+        }
+    }
+
+    if (botA_dealdata != "Not Assigned")
+    {
+        // Are all the safety orders filled
+        if (botA_dealdata.completed_safety_orders_count == botA_dealdata.max_safety_orders)
+        {
+            console.log("Max safety orders reached - Start Deviation" + botStartDeviation)  
+            if (botA_dealdata.actual_profit_percentage <= botStartDeviation)
             {
-                enable = true
-                console.log("What about here?" + enable)  
+                // Is there a already deal running on bot2, if not start the bot
+                if (botB_dealdata == "Not Assigned")
+                {
+                    enable = true
+                    console.log("Enable " + enable)  
+                }
             }
         }
     }
 
     return enable
-}
-
-function botEngine(botGroupNo)
-{
-
-
-  
-
-  /* if (bot 1 orders filled)
-    {
-      if (bot 1 deal < ?? %)
-      {
-          if (bot 2 has no deal running)
-          {
-            enable bot 2
-          }
-      }
-
-      // Cascade same logic as above with bot 2 and 3 and then 3 and 4
-
-
-    } */
-
-    /*
-        // This is the logic for if deals have finished.
-        if (bot 1 deal finished)
-        {
-            disable bot 2
-            update base order of bot 1 by 1% or using the value that was made in profit, distribute onto each order.
-        }
-    */
 }
 
 const showDeals = async () => {
@@ -228,5 +263,4 @@ const showDeals = async () => {
 
 initBotData()
 mainLoop()
-
-//server.listen(5000) //3 - listen for any incoming requests
+server.listen(5000) //3 - listen for any incoming requests

@@ -1,0 +1,38 @@
+
+.enableDisableBtn      { color: white; margin: 0 auto ;}
+  
+.engage                {height:60px; width:150px; background-color : rgb(29, 170, 29); display: flex; align-items: center; justify-content: center;}
+.enableBtn             {height:30px; background-color : rgb(29, 170, 29);}
+.disableBtn            {height:30px; background-color : rgb(136, 7, 7);}
+.disableAllOneCryptoBtn{height:34px; width:150px; background-color : rgb(136, 7, 7); display: flex; align-items: center; justify-content: center;}
+.PowerDisablebtn       {height:60px; width:150px; background-color : rgb(136, 7, 7); display: flex; align-items: center; justify-content: center;}
+
+body {background-color:rgb(0, 0, 0); text-align:center; color:floralwhite;} 
+* {font-family: Arial;}
+
+#boxhead              {width:800px; height:125px; margin:0 auto; background-color: rgb(0, 0, 0);}
+#bigContainer         {width:800px; height:500px; margin:0 auto; background-color: rgb(0, 0, 0);}
+#container            {width:600px; margin:0 auto; background-color: rgb(73, 109, 109); }
+
+
+#StartButtonArea      {float:left; width:25%; height:60px; border-bottom:1px;  background-color: rgb(32, 78, 78);} 
+#Balance              {float:left; width:50%; height:60px; color:rgb(0, 0, 0); border-bottom:1px;  background-color: rgb(22, 180, 228); display: flex; align-items: center; justify-content: center;} 
+#PowerDisable         {float:left; width:25%; height:60px; border-bottom:1px;  background-color: rgb(32, 78, 78);} 
+
+
+#all_ada_trades       {float:left; width:150px; margin:0 auto; background-color: rgb(73, 109, 109);}
+#all_eth_trades       {float:left; width:150px; margin:0 auto; background-color: rgb(73, 109, 109);}
+#all_ftm_trades       {float:left; width:150px; margin:0 auto; background-color: rgb(73, 109, 109);}
+#all_chz_trades       {float:left; width:150px; margin:0 auto; background-color: rgb(73, 109, 109);}
+
+
+#trade_header         {float:left;  width:150px; height:40px; font-size: 12px; border-bottom:1px; color:rgb(240, 144, 20); background-color: rgb(0, 0, 0); display: flex; align-items: center; justify-content: center;} 
+#sum_of_trades        {float:left;  width:150px; height:30px; font-size: 12px; border-bottom:1px; color:rgb(240, 144, 20); background-color: rgb(0, 0, 0); display: flex; align-items: center; justify-content: center;} 
+
+#indivdual_trades     {width:150px; border-width: 3px; border-color: rgb(22, 180, 228); background-color: rgb(0, 0, 0);}
+#enable_disable_btns  {float:left; width: 25px; height:150px; border-bottom:0px; background-color: rgb(32, 78, 78);} 
+#safetyorders_used    {float:left; width: 25px; height:150px; color:rgb(0, 0, 0); border-bottom:1px; background-color: rgb(22, 180, 228); font-size: 10px; margin: 0 auto; text-align: center;} 
+#profit_percentage    {float:left; width: 90px; height:150px; color:rgb(22, 180, 228);border-bottom:1px; background-color: rgb(0, 0, 0); font-size: 10px; margin: auto; text-align: right; padding-right: 10px;} 
+
+#disable_enable_trades {float:left; width: 150px; height:33px; border-bottom:1px solid #c7c7c7; background-color: rgb(32, 78, 78);} 
+
