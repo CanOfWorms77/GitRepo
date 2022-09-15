@@ -40,8 +40,20 @@ class threeCommasAPI {
         },
       });
 
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) 
+      {
+        return await response.json()
+      } 
+      else 
+      {      
+        throw response.statusText    
+      }   
+
       return await response.json();
-    } catch (e) {
+    } 
+    catch (e) 
+    {
       console.log(e);
       return false;
     }
@@ -203,6 +215,14 @@ class threeCommasAPI {
     return await this.makeRequest(
       "POST",
       `/public/api/ver1/bots/${bot_id}/cancel_all_deals?`,
+      { bot_id }
+    );
+  }
+
+  async getBotDealStats(bot_id) {
+    return await this.makeRequest(
+      "GET",
+      `/public/api/ver1/bots/${bot_id}/deals_stats?`,
       { bot_id }
     );
   }
