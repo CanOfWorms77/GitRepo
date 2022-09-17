@@ -30,8 +30,8 @@ var BotDataTable =
 
 const api = new threeCommasAPI
 ({
-    apiKey: '6d288e0f3f6540498c69cd7ba63358eb867603db3beb45329be096e00027ce98',
-    apiSecret: '32b4969b4e012c117f51d20e1dfa531f60a7ba48e3fda1e012cb9f93325ec10ac47821befccd340c67a253ec06b31e2414517e2497f4258554e89c83a6552c75816dcf773fc7932d04f522c4ee423c7fd15eaab524887847f601fc865fa7376baf22d99f'
+    apiKey: 'dfbe599fdc204734aba8d3d0af8f41584641eeee95f54d17b8ad2a7ea20aae34',
+    apiSecret: 'cf709ce8bedfadba7c8e830988b6e8afcf9e7a0fc7e1decd10f759a6caeeb5200b010d2376768592cc3848bba5320dd33306c121bc4cfd1ca8f4da3a40bd18516475384a81ddc0a8863f47048bd6e49805d9390494ec22f7141976eb8d8102f4f8387dd0'
 })
 
 var dealData = null
@@ -283,14 +283,15 @@ const runBotEngine = async () =>
             
 
             // botOrderCompounder()
+            var newBotParams = botOrderUpdater(currentbotParams, parseFloat(55), 151, BotGroups[mainLoopIndex]._bot1Id)
+            //console.log("newBotParams: ")
+            //console.log(newBotParams)
 
-            let newBotParams = botOrderUpdater(currentbotParams, '55', '151', BotGroups[mainLoopIndex]._bot1Id)
-            console.log("newBotParams: ")
-            console.log(newBotParams)
+            const updateResult = await api.botUpdate(newBotParams)
 
-            await api.botUpdate({ newBotParams })
-            console.log("newBotParams: ")
-            console.log(newBotParams)
+            console.log("Update Result")
+            console.log(updateResult)
+
 
             /*botOrderCompounder(deal1, BotGroups[mainLoopIndex]._bot1Id, Bot_1)
             botOrderCompounder(deal2, BotGroups[mainLoopIndex]._bot2Id, Bot_2)
@@ -463,9 +464,49 @@ function botOrderCompounder(dealData, botId, botIndex)
 
 function botOrderUpdater(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
 {
-    let NewBotParams = NotAssigned
+    const NewBotParams = 
+    {
+        name: currentbotParams.name,
+        pairs: currentbotParams.pairs,
+        max_active_deals: currentbotParams.max_active_deals,
+        base_order_volume: NewBaseOrder, // This is updated
+        base_order_volume_type: currentbotParams.base_order_volume_type,
+        take_profit: currentbotParams.take_profit,
+        safety_order_volume: NewSafetyOrder, // This is updated
+        safety_order_volume_type: currentbotParams.safety_order_volume_type,
+        martingale_volume_coefficient: currentbotParams.martingale_volume_coefficient,
+        martingale_step_coefficient: currentbotParams.martingale_step_coefficient,
+        max_safety_orders: currentbotParams.max_safety_orders,
+        active_safety_orders_count:	currentbotParams.active_safety_orders_count,
+        stop_loss_percentage: currentbotParams.stop_loss_percentage,
+        cooldown: currentbotParams.cooldown,
+        trailing_enabled: currentbotParams.trailing_enabled,
+        trailing_deviation:	currentbotParams.trailing_deviation,
+        btc_price_limit: currentbotParams.btc_price_limit,
+        safety_order_step_percentage: currentbotParams.safety_order_step_percentage,
+        take_profit_type: currentbotParams.take_profit_type,
+        strategy_list: [ { "strategy": "" } ],
+        leverage_type: currentbotParams.leverage_type,
+        leverage_custom_value: currentbotParams.leverage_custom_value,
+        min_price: currentbotParams.min_price,
+        max_price: currentbotParams.max_price,
+        stop_loss_timeout_enabled: currentbotParams.stop_loss_timeout_enabled,
+        stop_loss_timeout_in_seconds: currentbotParams.stop_loss_timeout_in_seconds,
+        min_volume_btc_24h:	currentbotParams.min_volume_btc_24h,
+        tsl_enabled: currentbotParams.tsl_enabled,
+        deal_start_delay_seconds: currentbotParams.deal_start_delay_seconds,
+        profit_currency: currentbotParams.profit_currency,
+        start_order_type: currentbotParams.start_order_type,
+        stop_loss_type:	currentbotParams.stop_loss_type,
+        disable_after_deals_count: currentbotParams.disable_after_deals_count,
+        allowed_deals_on_same_pair:	currentbotParams.allowed_deals_on_same_pair,
+        close_deals_timeout: currentbotParams.close_deals_timeout,
+        bot_id:	botId	// This is the changed bit from bot info 		
+    }
 
-    NewBotParams.name =	currentbotParams.name
+
+
+/*    NewBotParams.name =	currentbotParams.name
     NewBotParams.pairs = currentbotParams.pairs
     NewBotParams.max_active_deals =	currentbotParams.max_active_deals
     NewBotParams.base_order_volume = NewBaseOrder // This is updated
@@ -500,7 +541,7 @@ function botOrderUpdater(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
     NewBotParams.disable_after_deals_count = currentbotParams.disable_after_deals_count
     NewBotParams.allowed_deals_on_same_pair	= currentbotParams.allowed_deals_on_same_pair
     NewBotParams.close_deals_timeout = currentbotParams.close_deals_timeout
-    NewBotParams.bot_id	= botId	// This is the changed bit from bot info 
+    NewBotParams.bot_id	= botId	// This is the changed bit from bot info */
 
     return NewBotParams
 }
