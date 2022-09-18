@@ -226,6 +226,22 @@ class threeCommasAPI {
       { bot_id }
     );
   }
+  
+  async getStrategyList() {
+    return await this.makeRequest(
+      "GET",
+      `/public/api/ver1/bots/strategy_list`,
+      null
+    );
+  }
+
+  async botShow(bot_id) {
+    return await this.makeRequest(
+      "GET",
+      `/public/api/ver1/bots/${bot_id}/show?`,
+      { bot_id }
+    );
+  }
 
   async botShow(bot_id) {
     return await this.makeRequest(

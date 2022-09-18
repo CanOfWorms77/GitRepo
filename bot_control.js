@@ -283,9 +283,9 @@ const runBotEngine = async () =>
             
 
             // botOrderCompounder()
-            var newBotParams = botOrderUpdater(currentbotParams, parseFloat(55), 151, BotGroups[mainLoopIndex]._bot1Id)
-            //console.log("newBotParams: ")
-            //console.log(newBotParams)
+            var newBotParams = botOrderUpdater(currentbotParams, parseFloat(57), 151, BotGroups[mainLoopIndex]._bot1Id)
+            console.log("newBotParams: ")
+            console.log(newBotParams)
 
             const updateResult = await api.botUpdate(newBotParams)
 
@@ -467,81 +467,20 @@ function botOrderUpdater(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
     const NewBotParams = 
     {
         name: currentbotParams.name,
-        pairs: currentbotParams.pairs,
+        pairs: JSON.stringify([currentbotParams.pairs]),
         max_active_deals: currentbotParams.max_active_deals,
         base_order_volume: NewBaseOrder, // This is updated
-        base_order_volume_type: currentbotParams.base_order_volume_type,
         take_profit: currentbotParams.take_profit,
         safety_order_volume: NewSafetyOrder, // This is updated
-        safety_order_volume_type: currentbotParams.safety_order_volume_type,
         martingale_volume_coefficient: currentbotParams.martingale_volume_coefficient,
         martingale_step_coefficient: currentbotParams.martingale_step_coefficient,
         max_safety_orders: currentbotParams.max_safety_orders,
         active_safety_orders_count:	currentbotParams.active_safety_orders_count,
-        stop_loss_percentage: currentbotParams.stop_loss_percentage,
-        cooldown: currentbotParams.cooldown,
-        trailing_enabled: currentbotParams.trailing_enabled,
-        trailing_deviation:	currentbotParams.trailing_deviation,
-        btc_price_limit: currentbotParams.btc_price_limit,
         safety_order_step_percentage: currentbotParams.safety_order_step_percentage,
         take_profit_type: currentbotParams.take_profit_type,
-        strategy_list: [ { "strategy": "" } ],
-        leverage_type: currentbotParams.leverage_type,
-        leverage_custom_value: currentbotParams.leverage_custom_value,
-        min_price: currentbotParams.min_price,
-        max_price: currentbotParams.max_price,
-        stop_loss_timeout_enabled: currentbotParams.stop_loss_timeout_enabled,
-        stop_loss_timeout_in_seconds: currentbotParams.stop_loss_timeout_in_seconds,
-        min_volume_btc_24h:	currentbotParams.min_volume_btc_24h,
-        tsl_enabled: currentbotParams.tsl_enabled,
-        deal_start_delay_seconds: currentbotParams.deal_start_delay_seconds,
-        profit_currency: currentbotParams.profit_currency,
-        start_order_type: currentbotParams.start_order_type,
-        stop_loss_type:	currentbotParams.stop_loss_type,
-        disable_after_deals_count: currentbotParams.disable_after_deals_count,
-        allowed_deals_on_same_pair:	currentbotParams.allowed_deals_on_same_pair,
-        close_deals_timeout: currentbotParams.close_deals_timeout,
+        strategy_list: JSON.stringify([{"strategy":"nonstop"}]), // currentbotParams.strategy_list,
         bot_id:	botId	// This is the changed bit from bot info 		
     }
-
-
-
-/*    NewBotParams.name =	currentbotParams.name
-    NewBotParams.pairs = currentbotParams.pairs
-    NewBotParams.max_active_deals =	currentbotParams.max_active_deals
-    NewBotParams.base_order_volume = NewBaseOrder // This is updated
-    NewBotParams.base_order_volume_type	= currentbotParams.base_order_volume_type
-    NewBotParams.take_profit = currentbotParams.take_profit
-    NewBotParams.safety_order_volume = NewSafetyOrder // This is updated
-    NewBotParams.safety_order_volume_type =	currentbotParams.safety_order_volume_type
-    NewBotParams.martingale_volume_coefficient = currentbotParams.martingale_volume_coefficient
-    NewBotParams.martingale_step_coefficient = currentbotParams.martingale_step_coefficient
-    NewBotParams.max_safety_orders = currentbotParams.max_safety_orders
-    NewBotParams.active_safety_orders_count	= currentbotParams.active_safety_orders_count
-    NewBotParams.stop_loss_percentage =	currentbotParams.stop_loss_percentage
-    NewBotParams.cooldown =	currentbotParams.cooldown
-    NewBotParams.trailing_enabled =	currentbotParams.trailing_enabled
-    NewBotParams.trailing_deviation	= currentbotParams.trailing_deviation
-    NewBotParams.btc_price_limit = currentbotParams.btc_price_limit
-    NewBotParams.safety_order_step_percentage =	currentbotParams.safety_order_step_percentage
-    NewBotParams.take_profit_type =	currentbotParams.take_profit_type
-    NewBotParams.strategy_list = currentbotParams.strategy_list
-    NewBotParams.leverage_type = currentbotParams.leverage_type
-    NewBotParams.leverage_custom_value = currentbotParams.leverage_custom_value
-    NewBotParams.min_price = currentbotParams.min_price
-    NewBotParams.max_price = currentbotParams.max_price
-    NewBotParams.stop_loss_timeout_enabled = currentbotParams.stop_loss_timeout_enabled
-    NewBotParams.stop_loss_timeout_in_seconds =	currentbotParams.stop_loss_timeout_in_seconds
-    NewBotParams.min_volume_btc_24h	= currentbotParams.min_volume_btc_24h
-    NewBotParams.tsl_enabled = currentbotParams.tsl_enabled
-    NewBotParams.deal_start_delay_seconds =	currentbotParams.deal_start_delay_seconds
-    NewBotParams.profit_currency = currentbotParams.profit_currency
-    NewBotParams.start_order_type =	currentbotParams.start_order_type
-    NewBotParams.stop_loss_type	= currentbotParams.stop_loss_type
-    NewBotParams.disable_after_deals_count = currentbotParams.disable_after_deals_count
-    NewBotParams.allowed_deals_on_same_pair	= currentbotParams.allowed_deals_on_same_pair
-    NewBotParams.close_deals_timeout = currentbotParams.close_deals_timeout
-    NewBotParams.bot_id	= botId	// This is the changed bit from bot info */
 
     return NewBotParams
 }
