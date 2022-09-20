@@ -843,8 +843,8 @@
   }
 ]
 botController {
-  _BOTGROUPNAME_INDEX: 'LUNA',
-  _percentDEVIATION_INDEXToStart: -0.5,
+  _botGroupName: 'LUNA',
+  _percentDeviationIndexToStart: -0.5,
   _bot1Id: '9711362',
   _bot2Id: '9711367',
   _bot3Id: '9711372',
@@ -855,8 +855,8 @@ botController {
   _dealId_Bot4: 'No deal found'
 }
 botController {
-  _BOTGROUPNAME_INDEX: 'LUNC',
-  _percentDEVIATION_INDEXToStart: -0.5,
+  _botGroupName: 'LUNC',
+  _percentDeviationIndexToStart: -0.5,
   _bot1Id: '9711393',
   _bot2Id: '9711399',
   _bot3Id: '9711406',

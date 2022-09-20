@@ -1,0 +1,277 @@
+Initial Setup
+botController {
+  _botGroupName: 'CHZ',
+  _percentDeviationIndexToStart: -0.25,
+  _botId: [ '9739268', '9739271', '9739279', '9739288' ],
+  _botEnabled: [ false, false, false, false ],
+  _dealId_Bot: [ 1836729702, 1836762422, 1836815049, 1836729682 ]
+}
+botController {
+  _botGroupName: 'APE',
+  _percentDeviationIndexToStart: -3,
+  _botId: [ '9744505', '9744511', '9744516', '9744520' ],
+  _botEnabled: [ false, false, false, false ],
+  _dealId_Bot: [ 1835245772, 1835245778, 1836829907, 'No deal found' ]
+}
+botController {
+  _botGroupName: 'SOL',
+  _percentDeviationIndexToStart: -5,
+  _botId: [ '9744853', '9744846', '9744854', '9744856' ],
+  _botEnabled: [ false, false, false, false ],
+  _dealId_Bot: [ 1836729642, 1836736534, 1836746871, 'No deal found' ]
+}
+=============================================================
+Group name: CHZ
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
+Bot 4 is enabling: true
+=============================================================
+Group name: CHZ
+=============================================================
+CurrentBotParams Id for Bot 19739268
+Bot: 1 Bot enable is: true
+OrderCompounder: 1836729702
+Deal data: bought
+CurrentBotParams Id for Bot 29739271
+Bot: 2 Bot enable is: true
+OrderCompounder: 1836762422
+Deal data: bought
+CurrentBotParams Id for Bot 39739279
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836815049
+Deal data: bought
+CurrentBotParams Id for Bot 49739288
+Bot: 4 Bot enable is: true
+OrderCompounder: 1836729682
+Deal data: bought
+=============================================================
+Group name: APE
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
+CurrentBotParams Id for Bot 19744505
+Bot: 1 Bot enable is: false
+OrderCompounder: 1835245772
+Deal data: bought
+CurrentBotParams Id for Bot 29744511
+Bot: 2 Bot enable is: true
+OrderCompounder: 1835245778
+Deal data: bought
+CurrentBotParams Id for Bot 39744516
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836829907
+Deal data: bought
+CurrentBotParams Id for Bot 49744520
+Bot: 4 Bot enable is: false
+=============================================================
+Group name: SOL
+=============================================================
+CurrentBotParams Id for Bot 19744853
+Bot: 1 Bot enable is: true
+OrderCompounder: 1836729642
+Deal data: bought
+CurrentBotParams Id for Bot 29744846
+Bot: 2 Bot enable is: false
+OrderCompounder: 1836736534
+Deal data: bought
+CurrentBotParams Id for Bot 39744854
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836746871
+Deal data: bought
+CurrentBotParams Id for Bot 49744856
+Bot: 4 Bot enable is: false
+=============================================================
+Group name: CHZ
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
+Bot 4 is enabling: true
+CurrentBotParams Id for Bot 19739268
+Bot: 1 Bot enable is: true
+OrderCompounder: 1836729702
+Deal data: bought
+CurrentBotParams Id for Bot 29739271
+Bot: 2 Bot enable is: true
+OrderCompounder: 1836762422
+Deal data: bought
+CurrentBotParams Id for Bot 39739279
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836815049
+Deal data: bought
+CurrentBotParams Id for Bot 49739288
+Bot: 4 Bot enable is: true
+OrderCompounder: 1836729682
+Deal data: bought
+=============================================================
+Group name: APE
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
+=============================================================
+Group name: APE
+=============================================================
+CurrentBotParams Id for Bot 19744505
+Bot: 1 Bot enable is: false
+OrderCompounder: 1835245772
+Deal data: bought
+CurrentBotParams Id for Bot 29744511
+Bot: 2 Bot enable is: true
+OrderCompounder: 1835245778
+Deal data: bought
+CurrentBotParams Id for Bot 39744516
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836829907
+Deal data: bought
+CurrentBotParams Id for Bot 49744520
+Bot: 4 Bot enable is: false
+=============================================================
+Group name: SOL
+=============================================================
+CurrentBotParams Id for Bot 19744853
+Bot: 1 Bot enable is: true
+OrderCompounder: 1836729642
+Deal data: bought
+CurrentBotParams Id for Bot 29744846
+Bot: 2 Bot enable is: false
+OrderCompounder: 1836736534
+Deal data: bought
+CurrentBotParams Id for Bot 39744854
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836746871
+Deal data: bought
+CurrentBotParams Id for Bot 49744856
+Bot: 4 Bot enable is: false
+CurrentBotParams Id for Bot 19744853
+Bot: 1 Bot enable is: true
+CurrentBotParams Id for Bot 29744846
+Bot: 2 Bot enable is: false
+CurrentBotParams Id for Bot 39744854
+Bot: 3 Bot enable is: true
+CurrentBotParams Id for Bot 49744856
+Bot: 4 Bot enable is: false
+=============================================================
+Group name: APE
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
+=============================================================
+Group name: APE
+=============================================================
+Bot 3 is enabling: true
+CurrentBotParams Id for Bot 19744505
+Bot: 1 Bot enable is: false
+OrderCompounder: 1835245772
+Deal data: bought
+CurrentBotParams Id for Bot 29744511
+Bot: 2 Bot enable is: true
+OrderCompounder: 1835245778
+Deal data: bought
+CurrentBotParams Id for Bot 39744516
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836829907
+Deal data: bought
+CurrentBotParams Id for Bot 49744520
+Bot: 4 Bot enable is: false
+=============================================================
+Group name: SOL
+=============================================================
+CurrentBotParams Id for Bot 19744853
+Bot: 1 Bot enable is: true
+OrderCompounder: 1836729642
+Deal data: bought
+CurrentBotParams Id for Bot 29744846
+Bot: 2 Bot enable is: false
+OrderCompounder: 1836736534
+Deal data: bought
+CurrentBotParams Id for Bot 39744854
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836746871
+Deal data: bought
+CurrentBotParams Id for Bot 49744856
+Bot: 4 Bot enable is: false
+=============================================================
+Group name: CHZ
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
+Bot 4 is enabling: true
+CurrentBotParams Id for Bot 19739268
+Bot: 1 Bot enable is: true
+OrderCompounder: 1836729702
+Deal data: bought
+CurrentBotParams Id for Bot 29739271
+Bot: 2 Bot enable is: true
+OrderCompounder: 1836762422
+Deal data: bought
+CurrentBotParams Id for Bot 39739279
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836815049
+Deal data: bought
+CurrentBotParams Id for Bot 49739288
+Bot: 4 Bot enable is: true
+OrderCompounder: 1836729682
+Deal data: bought
+=============================================================
+Group name: APE
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
+CurrentBotParams Id for Bot 19744505
+Bot: 1 Bot enable is: false
+OrderCompounder: 1835245772
+Deal data: bought
+CurrentBotParams Id for Bot 29744511
+Bot: 2 Bot enable is: true
+OrderCompounder: 1835245778
+Deal data: bought
+CurrentBotParams Id for Bot 39744516
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836829907
+Deal data: bought
+CurrentBotParams Id for Bot 49744520
+Bot: 4 Bot enable is: false
+=============================================================
+Group name: SOL
+=============================================================
+CurrentBotParams Id for Bot 19744853
+Bot: 1 Bot enable is: true
+OrderCompounder: 1836729642
+Deal data: bought
+CurrentBotParams Id for Bot 29744846
+Bot: 2 Bot enable is: false
+OrderCompounder: 1836736534
+Deal data: bought
+CurrentBotParams Id for Bot 39744854
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836746871
+Deal data: bought
+CurrentBotParams Id for Bot 49744856
+Bot: 4 Bot enable is: false
+=============================================================
+Group name: CHZ
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
+Bot 4 is enabling: true
+CurrentBotParams Id for Bot 19739268
+Bot: 1 Bot enable is: true
+OrderCompounder: 1836729702
+Deal data: bought
+CurrentBotParams Id for Bot 29739271
+Bot: 2 Bot enable is: true
+OrderCompounder: 1836762422
+Deal data: bought
+CurrentBotParams Id for Bot 39739279
+Bot: 3 Bot enable is: true
+OrderCompounder: 1836815049
+Deal data: bought
+CurrentBotParams Id for Bot 49739288
+Bot: 4 Bot enable is: true
+OrderCompounder: 1836729682
+Deal data: bought
+=============================================================
+Group name: APE
+=============================================================
+Bot 2 is enabling: true
+Bot 3 is enabling: true
