@@ -28,6 +28,8 @@ var BotDataTable =
   ["CHZ" , -5.0,  '9739268', '9739271', '9739279', '9739288' ],
   ["APE" , -2.2,  '9744505', '9744511', '9744516', '9744520' ],
   ["SOL" , -5.0,  '9744853', '9744846', '9744854', '9744856' ],
+  ["ALGO", -5.0,  '9757576', '9757587', '9757600', '9757604' ],
+  ["AVAX", -5.0,  '9757619', '9757622', '9757631', '9757635' ],
   ["LAST_ENTRY", null, null, null, null, null ],
 ] 
 
@@ -51,7 +53,7 @@ class botController
       this._botEnabled = [ false, false, false, false ]
       this._dealId_Bot = [ 0, 0, 0, 0 ]
       this._numberOfBotEnables = [ 0, 0, 0, 0 ]
-      this._numberOfDealsClosed = [ 0, 0, 0, 0 ]
+      this._numberOfDealsOpened = [ 0, 0, 0, 0 ]
    }
 }
 
@@ -143,7 +145,7 @@ const initBotData = async () =>
             BotGroups[bot_group_no]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[bot_group_no]._botId[bot_index], dealsData);
         }
 
-        fileconsole.log(BotGroups[bot_group_no])       ;              
+        fileconsole.log(BotGroups[bot_group_no]);              
     }
 }
 
@@ -159,13 +161,18 @@ const runBotEngine = async () =>
             {
                 task_counters[BOT_DATA_UPDATE]++;
                 if (task_counters[BOT_DATA_UPDATE] < 2)
-                {
+                {                   
                     task_real_counters[BOT_DATA_UPDATE] = task_counters[BOT_DATA_UPDATE];
                     
                     fileconsole.log("=============================================================");
                     fileconsole.log("Group name: " + BotGroups[mainLoopIndex]._botGroupName);
                     fileconsole.log("=============================================================");
-        
+
+                    let dateTime = new Date();
+
+                    console.log( dateTime ); // shows current date/time
+                    fileconsole.log(dateTime);
+
                     let botInfo = NotAssigned;
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                     {
@@ -198,6 +205,11 @@ const runBotEngine = async () =>
                         if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] != NoDealFound)
                         {
                             dealDataForProcessing[bot_index] = await api.getDeal(BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
+
+                            if (BotGroups[mainLoopIndex]._botGroupName == "APE")
+                            {
+                                console.log("STATUS: " + dealDataForProcessing[0].status);
+                            }
                         }
                         else
                         {
@@ -313,12 +325,7 @@ const runBotEngine = async () =>
                             //fileprofitconsole.log("Got here 2" + newBotParams.base_order_volume)
                             if (newBotParams != NotAssigned)
                             {
-                                //fileprofitconsole.log("bloody new bot: " + newBotParams)
                                 const updateResult = await api.botUpdate(newBotParams);
-            
-                                let debuginfo = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
-            
-                                fileconsole.log("NewBaseOrder debug: " + debuginfo.base_order_volume);
                             }
                         }
 
@@ -349,19 +356,27 @@ const runBotEngine = async () =>
                     // get latest active deal data for this account
                     let NewdealsData = await api.getDeals({ account_id: paperAccount, scope: 'active' });
 
-                    //fileconsole.log("NewDeals" + NewdealsData)
 
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                     {
                         if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] == NoDealFound)
                         {
+                            console.log("");
+                            fileconsole.log("");
+                            console.log("Bot: " + (bot_index + 1));
+                            console.log("Check bot index hasnt been incremented by stupid node.js: " + bot_index);
+                            fileconsole.log("NewDeals " + NewdealsData.status)
+                            console.log("NewDeals " + NewdealsData.status)
+                            fileconsole.log("");
+                            console.log("");
+
                             BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[mainLoopIndex]._botId[bot_index], 
                                                                                                NewdealsData);
 
                             if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] != NoDealFound)
                             {
                                 fileconsole.log("DealUpdated: " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
-                                BotGroups[mainLoopIndex]._numberOfDealsClosed[bot_index]++;
+                                BotGroups[mainLoopIndex]._numberOfDealsOpened[bot_index]++;
                             }                                                                
                         }
                     }
@@ -418,11 +433,13 @@ function botCascaderStart(botStartDeviationIndex, bot_index)
             //fileconsole.log("Max safety orders reached - Start DEVIATION_INDEX" + botStartDeviationIndex)  
             if (dealDataForProcessing[bot_index].actual_profit_percentage <= botStartDeviationIndex)
             {
-                //fileconsole.log("Actual profit : " + botA_dealdata.actual_profit_percentage)  
+                fileconsole.log("Actual profit : " + dealDataForProcessing[bot_index].actual_profit_percentage);
+                console.log("Actual profit : " + dealDataForProcessing[bot_index].actual_profit_percentage);
+                console.log(dealDataForProcessing[bot_index + 1]); 
                 // Is there a already deal running on bot2, if not start the bot
                 if (dealDataForProcessing[bot_index + 1] == NotAssigned)
                 {
-                    if (BotGroups[mainLoopIndex]._botEnabled[bot_index] == false)
+                    if (BotGroups[mainLoopIndex]._botEnabled[bot_index + 1] == false)
                     {
                         enable = true;
                         // bot index + 2 - start from 0 and wanting the second bot of the pair being compared
@@ -467,7 +484,7 @@ function botCascaderFinish(bot_index)
             // Is there a already deal running on bot2, if not stop the bot 
             if ((dealDataForProcessing[bot_index + 1].status == 'bought') || (dealDataForProcessing[bot_index + 1].status == 'completed'))
             {
-                if (BotGroups[mainLoopIndex]._botEnabled[bot_index] == true)
+                if (BotGroups[mainLoopIndex]._botEnabled[bot_index + 1] == true)
                 {
                     disable = true;
                     fileconsole.log("Bot " + (bot_index + 2) + " is disabling: " + disable);
@@ -508,8 +525,11 @@ function botOrderCompounder(dealData, botParams, bot_index)
                 // Don't increment orders if the profit is negative for some reason
                 if (dealData.usd_final_profit > 0)
                 {
-                    let baseOrderCompound = (dealData.usd_final_profit * 0.1); // 10%
-                    let safetyOrderCompound = (dealData.usd_final_profit * 0.3); // 30%
+                    let baseOrderCompound = (dealData.usd_final_profit * 0.11); // 10%
+                    // When safety ordered is doubled in the bot, the added compound will doubled.
+                    // So the weighting of the profit will be, 11% added to first bot, 
+                    // 22% added to second bot, 44% to third bot and 23% left over
+                    let safetyOrderCompound = (dealData.usd_final_profit * 0.22); // 20%
                     
         
                     fileconsole.log("Base order compound value " + baseOrderCompound);
@@ -534,11 +554,11 @@ function botOrderCompounder(dealData, botParams, bot_index)
           
                     // Now that the current deal has been completed, reset the deal Id, ready to be updated
                     // with next deal
-                    for (let x = 0; x < MAX_NO_OF_BOTSPERGROUP; x++)
+                    for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                     {
-                        if (BotDataTable[mainLoopIndex][x + BOTS_OFFSET_INDEX] == botParams.id)
+                        if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == botParams.id)
                         {
-                            BotDataTable[mainLoopIndex][x + DEALS_OFFSET_INDEX] = NoDealFound;
+                            BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = NoDealFound;
                             fileconsole.log("Completed deal reset");
                         }
                     }
