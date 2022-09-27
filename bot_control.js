@@ -4,16 +4,10 @@ var http = require('http'); // 1 - Import Node.js core module
 var fs = require('fs');
 
 const fileconsole = new console.Console(fs.createWriteStream('./output.txt'))
-const fileprofitconsole = new console.Console(fs.createWriteStream('./output1.txt'))
-
 
 var server = http.createServer(function (req, res) 
 {   
-    res.write(BotGroups[mainLoopIndex].BOTGROUPNAME_INDEX + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex].BOT1_INDEX + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex].BOT2_INDEX + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex].BOT3_INDEX + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex].BOT4_INDEX + "\n"); //write a response to the client
+    res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
     return res.end();
 });
 
@@ -127,7 +121,7 @@ const initBotData = async () =>
     // Declare variable to contain deal data
     let dealsData = await api.getDeals({ account_id: paperAccount, scope: 'active' });
     
-    fileconsole.log("Initial Setup");
+    //fileconsole.log("Initial Setup");
 
     // Create bot control instances
     for (let bot_group_no = 0; BotDataTable[bot_group_no][0] != "LAST_ENTRY"; bot_group_no++)
@@ -145,7 +139,7 @@ const initBotData = async () =>
             BotGroups[bot_group_no]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[bot_group_no]._botId[bot_index], dealsData);
         }
 
-        fileconsole.log(BotGroups[bot_group_no]);              
+        //fileconsole.log(BotGroups[bot_group_no]);              
     }
 }
 
@@ -164,14 +158,14 @@ const runBotEngine = async () =>
                 {                   
                     task_real_counters[BOT_DATA_UPDATE] = task_counters[BOT_DATA_UPDATE];
                     
-                    fileconsole.log("=============================================================");
-                    fileconsole.log("Group name: " + BotGroups[mainLoopIndex]._botGroupName);
-                    fileconsole.log("=============================================================");
+                    //fileconsole.log("=============================================================");
+                    //fileconsole.log("Group name: " + BotGroups[mainLoopIndex]._botGroupName);
+                    //fileconsole.log("=============================================================");
 
                     let dateTime = new Date();
 
                     console.log( dateTime ); // shows current date/time
-                    fileconsole.log(dateTime);
+                    //fileconsole.log(dateTime);
 
                     let botInfo = NotAssigned;
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
@@ -181,7 +175,7 @@ const runBotEngine = async () =>
                     }
                     
                     console.log(BotGroups[mainLoopIndex]);
-                    fileconsole.log(BotGroups[mainLoopIndex]);
+                    //fileconsole.log(BotGroups[mainLoopIndex]);
         
                     currentTask = BOT_CASCADE_START;
                 }
@@ -218,7 +212,7 @@ const runBotEngine = async () =>
                                 // Bot 1 should always have deal for the cascading to work
                                 // so it could be that the bot is off, so enable here
                                 await api.botEnable(BotGroups[mainLoopIndex]._botId[bot_index]);
-                                fileconsole.log("Enabling Bot :" + (bot_index + 1));
+                                //fileconsole.log("Enabling Bot :" + (bot_index + 1));
                             }
 
                         }
@@ -361,21 +355,12 @@ const runBotEngine = async () =>
                     {
                         if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] == NoDealFound)
                         {
-                            console.log("");
-                            fileconsole.log("");
-                            console.log("Bot: " + (bot_index + 1));
-                            console.log("Check bot index hasnt been incremented by stupid node.js: " + bot_index);
-                            fileconsole.log("NewDeals " + NewdealsData.status)
-                            console.log("NewDeals " + NewdealsData.status)
-                            fileconsole.log("");
-                            console.log("");
-
                             BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[mainLoopIndex]._botId[bot_index], 
                                                                                                NewdealsData);
 
                             if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] != NoDealFound)
                             {
-                                fileconsole.log("DealUpdated: " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
+                                //fileconsole.log("DealUpdated: " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
                                 BotGroups[mainLoopIndex]._numberOfDealsOpened[bot_index]++;
                             }                                                                
                         }
