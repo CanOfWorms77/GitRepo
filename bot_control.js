@@ -23,7 +23,9 @@ var BotDataTable =
   ["APE" , -2.2,  '9744505', '9744511', '9744516', '9744520' ],
   ["SOL" , -5.0,  '9744853', '9744846', '9744854', '9744856' ],
   ["ALGO", -5.0,  '9757576', '9757587', '9757600', '9757604' ],
-  ["AVAX", -5.0,  '9757619', '9757622', '9757631', '9757635' ],
+  ["AVAX", -5.0,  '9757619', '9757622', '9757631', '9757635' ], 
+  ["LINK", -5.0,  '9801299', '9801307', '9801314', '9801322' ], // Real
+  ["ATOM", -5.0,  '9801330', '9801332', '9801335', '9801341' ], // Real
   ["LAST_ENTRY", null, null, null, null, null ],
 ] 
 
@@ -51,19 +53,10 @@ class botController
    }
 }
 
-// Would be enum in C - but can't be bothered with the node.js equivalent, so just hard code indexes
 const BOTGROUPNAME_INDEX = 0
 const DEVIATION_INDEX = 1
 const BOTS_OFFSET_INDEX = 2
-const BOT1_INDEX = 2
-const BOT2_INDEX = 3
-const BOT3_INDEX = 4
-const BOT4_INDEX = 5
 const DEALS_OFFSET_INDEX = 5
-const DEAL1_INDEX = 6
-const DEAL2_INDEX = 7
-const DEAL3_INDEX = 8
-const DEAL4_INDEX = 9
 
 const BOT_DATA_UPDATE = 0
 const BOT_CASCADE_START = 1
@@ -119,7 +112,7 @@ function botIdDealMatcher(bot_id, dealInfo)
 const initBotData = async () =>
 {      
     // Declare variable to contain deal data
-    let dealsData = await api.getDeals({ account_id: paperAccount, scope: 'active' });
+    let dealsData = await api.getDeals({ scope: 'active' });
     
     //fileconsole.log("Initial Setup");
 
@@ -348,7 +341,7 @@ const runBotEngine = async () =>
 
                     // Update new Deal Ids here
                     // get latest active deal data for this account
-                    let NewdealsData = await api.getDeals({ account_id: paperAccount, scope: 'active' });
+                    let NewdealsData = await api.getDeals({ scope: 'active' });
 
 
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
