@@ -8,10 +8,11 @@ const fileconsole = new console.Console(fs.createWriteStream('./output.txt'))
 var server = http.createServer(function (req, res) 
 {   
     res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex]._botEnabled[0] + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex]._botEnabled[1] + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex]._botEnabled[2] + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex]._botEnabled[3] + "\n"); //write a response to the client
+    //res.write(BotGroups[mainLoopIndex]._botEnabled[0] + "\n"); //write a response to the client
+    //res.write(BotGroups[mainLoopIndex]._botEnabled[1] + "\n"); //write a response to the client
+    //res.write(BotGroups[mainLoopIndex]._botEnabled[2] + "\n"); //write a response to the client
+    //res.write(BotGroups[mainLoopIndex]._botEnabled[3] + "\n"); //write a response to the client
+    res.status(200).json({ data: BotGroups });
     return res.end();
 });
 
