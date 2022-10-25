@@ -12,7 +12,7 @@ var server = http.createServer(function (req, res)
     //res.write(BotGroups[mainLoopIndex]._botEnabled[1] + "\n"); //write a response to the client
     //res.write(BotGroups[mainLoopIndex]._botEnabled[2] + "\n"); //write a response to the client
     //res.write(BotGroups[mainLoopIndex]._botEnabled[3] + "\n"); //write a response to the client
-    res.status(200).json({ data: BotGroups });
+    //res.status(200).json({ data: BotGroups });
     res.write("Test"); //write a response to the client
     return res.end();
 });
