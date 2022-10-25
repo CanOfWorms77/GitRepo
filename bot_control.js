@@ -569,8 +569,8 @@ function botOrderUpdate(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
 
 var server = http.createServer(function (req, res) 
 {   
-    res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
-    //res.status(200).json({ data: BotGroups });
+    //res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
+    res.status(200).json({ data: BotGroups });
     //res.write(BotGroups[mainLoopIndex]._bot2Id + "\n"); //write a response to the client
     //res.write(BotGroups[mainLoopIndex]._bot3Id + "\n"); //write a response to the client
     //res.write(BotGroups[mainLoopIndex]._bot4Id + "\n"); //write a response to the client
