@@ -5,18 +5,6 @@ var fs = require('fs');
 
 const fileconsole = new console.Console(fs.createWriteStream('./output.txt'))
 
-var server = http.createServer(function (req, res) 
-{   
-    //res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
-    //res.write(BotGroups[mainLoopIndex]._botEnabled[0] + "\n"); //write a response to the client
-    //res.write(BotGroups[mainLoopIndex]._botEnabled[1] + "\n"); //write a response to the client
-    //res.write(BotGroups[mainLoopIndex]._botEnabled[2] + "\n"); //write a response to the client
-    //res.write(BotGroups[mainLoopIndex]._botEnabled[3] + "\n"); //write a response to the client
-    //res.status(200).json({ data: BotGroups });
-    //res.write("Test"); //write a response to the client
-    //return res.end();
-});
-
 const MAX_NO_OF_BOTSPERGROUP = 4;
 
 var BotGroups = [];
@@ -582,10 +570,10 @@ function botOrderUpdate(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
 var server = http.createServer(function (req, res) 
 {   
     res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex]._bot1Id + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex]._bot2Id + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex]._bot3Id + "\n"); //write a response to the client
-    res.write(BotGroups[mainLoopIndex]._bot4Id + "\n"); //write a response to the client
+    res.status(200).json({ data: BotGroups });
+    //res.write(BotGroups[mainLoopIndex]._bot2Id + "\n"); //write a response to the client
+    //res.write(BotGroups[mainLoopIndex]._bot3Id + "\n"); //write a response to the client
+    //res.write(BotGroups[mainLoopIndex]._bot4Id + "\n"); //write a response to the client
     return res.end();
 });
 
