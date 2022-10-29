@@ -465,7 +465,7 @@ function botCascaderFinish(bot_index)
     }
     else
     {
-        console.log("Bot A is currently: " + botA_dealdata)  
+        console.log("Bot A is currently: " + dealDataForProcessing[bot_index].status)  
     }
 
     return disable;
