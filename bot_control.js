@@ -441,31 +441,31 @@ function botCascaderFinish(bot_index)
     if (dealDataForProcessing[bot_index] != NotAssigned)
     {
         // Check the current profit is above breakeven
-        //fileconsole.log("Current price : " + botA_dealdata.current_price)
-        //fileconsole.log("Average price : " + botA_dealdata.bought_average_price)
+        console.log("Current price : " + botA_dealdata.current_price)
+        console.log("Average price : " + botA_dealdata.bought_average_price)
         //fileconsole.log("Bot B is currently: " + botB_dealdata.status)  
         if (parseFloat(dealDataForProcessing[bot_index].current_price) > 
             parseFloat(dealDataForProcessing[bot_index].bought_average_price))
         {
-            fileconsole.log("Bot " + (bot_index + 1) + " Deal Id: " + dealDataForProcessing[bot_index].id);
-            fileconsole.log("Bot " + (bot_index + 1) + " Current Price is above breakeven");
-            fileconsole.log("so stop bot " + (bot_index + 2) + " if it has a deal running");
-            fileconsole.log("Is there a deal running? Yes if status is bought or completed");
-            fileconsole.log("status is: " + dealDataForProcessing[bot_index + 1].status);
-            // Is there a already deal running on bot2, if not stop the bot 
+            console.log("Bot " + (bot_index + 1) + " Deal Id: " + dealDataForProcessing[bot_index].id);
+            console.log("Bot " + (bot_index + 1) + " Current Price is above breakeven");
+            console.log("so stop bot " + (bot_index + 2) + " if it has a deal running");
+            console.log("Is there a deal running? Yes if status is bought or completed");
+            console.log("status is: " + dealDataForProcessing[bot_index + 1].status);
+            // Is there a already deal running on bot2, if yes stop the bot 
             if ((dealDataForProcessing[bot_index + 1].status == 'bought') || (dealDataForProcessing[bot_index + 1].status == 'completed'))
             {
                 if (BotGroups[mainLoopIndex]._botEnabled[bot_index + 1] == true)
                 {
                     disable = true;
-                    fileconsole.log("Bot " + (bot_index + 2) + " is disabling: " + disable);
+                    console.log("Bot " + (bot_index + 2) + " is disabling: " + disable);
                 }
             }
         }
     }
     else
     {
-        //fileconsole.log("Bot A is currently: " + botA_dealdata)  
+        console.log("Bot A is currently: " + botA_dealdata)  
     }
 
     return disable;
@@ -572,7 +572,7 @@ var server = http.createServer(function (req, res)
 {   
     res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
     //res.status(200).json({ data: BotGroups });
-    res.write(String(BotGroups[mainLoopIndex]._bot1Id) + "\n"); //write a response to the client
+    res.write(BotGroups[mainLoopIndex]._bot1Id + "\n"); //write a response to the client
     //res.write(BotGroups[mainLoopIndex]._bot3Id + "\n"); //write a response to the client
     //res.write(BotGroups[mainLoopIndex]._bot4Id + "\n"); //write a response to the client
     return res.end();
