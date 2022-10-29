@@ -441,8 +441,8 @@ function botCascaderFinish(bot_index)
     if (dealDataForProcessing[bot_index] != NotAssigned)
     {
         // Check the current profit is above breakeven
-        console.log("Current price : " + botA_dealdata.current_price)
-        console.log("Average price : " + botA_dealdata.bought_average_price)
+        console.log("Current price : " + dealDataForProcessing[bot_index].current_price)
+        console.log("Average price : " + dealDataForProcessing[bot_index].bought_average_price)
         //fileconsole.log("Bot B is currently: " + botB_dealdata.status)  
         if (parseFloat(dealDataForProcessing[bot_index].current_price) > 
             parseFloat(dealDataForProcessing[bot_index].bought_average_price))
