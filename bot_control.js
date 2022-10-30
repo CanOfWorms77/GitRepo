@@ -1,6 +1,6 @@
 const threeCommasAPI = require('3commas-api-node')
 
-var http = require('http'); // 1 - Import Node.js core module
+//var http = require('http'); // 1 - Import Node.js core module
 var fs = require('fs');
 
 const fileconsole = new console.Console(fs.createWriteStream('./output.txt'))
@@ -13,12 +13,13 @@ var BotGroups = [];
 var BotDataTable = 
 [
   ["MATIC", -5.0,  '9827195', '9827197', '9827201', '9827204' ],
-  ["HBAR",  -5.0,  '9842410', '9842425', '9842433', '9842438' ],
+  ["HBAR",  -5.0,  '9842410', '9842425', '9842433', '9842439' ],
   ["ATOM",  -5.0,  '9929991', '9930041', '9930044', '9930049' ],
   ["LINK",  -5.0,  '9930102', '9930107', '9930109', '9930115' ],
   ["ADA",   -5.0,  '9948518', '9948532', '9948534', '9948539' ],
   ["APTOS", -5.0,  '9950825', '9950832', '9950835', '9950839' ],
   ["SOL",   -5.0,  '9954755', '9954761', '9954766', '9954769' ],
+  ["AVAX",  -5.0,  '9980604', '9980606', '9980607', '9980609' ],
   ["LAST_ENTRY", null, null, null, null, null ],
 ] 
 
@@ -568,7 +569,7 @@ function botOrderUpdate(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
     return NewBotParams;
 }
 
-var server = http.createServer(function (req, res) 
+/*var server = http.createServer(function (req, res) 
 {   
     res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
     //res.status(200).json({ data: BotGroups });
@@ -576,8 +577,21 @@ var server = http.createServer(function (req, res)
     //res.write(BotGroups[mainLoopIndex]._bot3Id + "\n"); //write a response to the client
     //res.write(BotGroups[mainLoopIndex]._bot4Id + "\n"); //write a response to the client
     return res.end();
-});
+});*/
+
+const express = require('express');
+const app = express();
+const port = 5000;
+
+app.use(express.static('public'));
+
+app.get('/', (req, res) => 
+{
+    res.status(200).send('<h1>Hello</h1>');
+})
+
+app.listen(port, () => console.log("Server has started"));
+
 
 initBotData();
 mainLoop();
-server.listen(5000);// - listen for any incoming requests
