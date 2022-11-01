@@ -12,14 +12,14 @@ var BotGroups = [];
 // Bot data table - "Bot Group name e.g. BTC", "DEVIATION_INDEX to start next bot e.g. -5", "Bot1Id", "Bot2Id" "Bot3Id" "Bot4Id",   
 var BotDataTable = 
 [
-  ["MATIC", -5.0,  '9827195', '9827197', '9827201', '9827204' ],
-  ["HBAR",  -5.0,  '9842410', '9842425', '9842433', '9842439' ],
-  ["ATOM",  -5.0,  '9929991', '9930041', '9930044', '9930049' ],
-  ["LINK",  -5.0,  '9930102', '9930107', '9930109', '9930115' ],
-  ["ADA",   -5.0,  '9948518', '9948532', '9948534', '9948539' ],
-  ["APTOS", -5.0,  '9950825', '9950832', '9950835', '9950839' ],
-  ["SOL",   -5.0,  '9954755', '9954761', '9954766', '9954769' ],
-  ["AVAX",  -5.0,  '9980604', '9980606', '9980607', '9980609' ],
+  ["MATIC", -8.0,  '9827195', '9827197', '9827201', '9827204' ],
+  ["HBAR",  -8.0,  '9842410', '9842425', '9842433', '9842439' ],
+  ["ATOM",  -8.0,  '9929991', '9930041', '9930044', '9930049' ],
+  ["LINK",  -8.0,  '9930102', '9930107', '9930109', '9930115' ],
+  ["ADA",   -8.0,  '9948518', '9948532', '9948534', '9948539' ],
+  ["APTOS", -8.0,  '9950825', '9950832', '9950835', '9950839' ],
+  ["SOL",   -8.0,  '9954755', '9954761', '9954766', '9954769' ],
+  ["AVAX",  -8.0,  '9980604', '9980606', '9980607', '9980609' ],
   ["LAST_ENTRY", null, null, null, null, null ],
 ] 
 
@@ -403,7 +403,10 @@ function botCascaderStart(botStartDeviationIndex, bot_index)
         if (dealDataForProcessing[bot_index].completed_safety_orders_count == dealDataForProcessing[bot_index].max_safety_orders);
         {
             //fileconsole.log("Max safety orders reached - Start DEVIATION_INDEX" + botStartDeviationIndex)  
-            if (dealDataForProcessing[bot_index].actual_profit_percentage <= botStartDeviationIndex)
+            // Make sure that deviation to enable new bot is great than bot 1 deviation and bot above deviation
+            if ((dealDataForProcessing[0].actual_profit_percentage <= botStartDeviationIndex * (bot_index + 1)) 
+                                                        &&
+                (dealDataForProcessing[bot_index].actual_profit_percentage <= botStartDeviationIndex))
             {
                 fileconsole.log("Actual profit : " + dealDataForProcessing[bot_index].actual_profit_percentage);
                 console.log("Actual profit : " + dealDataForProcessing[bot_index].actual_profit_percentage);
@@ -437,6 +440,7 @@ function botCascaderStart(botStartDeviationIndex, bot_index)
 function botCascaderFinish(bot_index)
 {
     let disable = false;
+    let percentage_of_bought_average_price = 0;
 
     //fileconsole.log("BotADeal:-" + botA_dealdata)
     if (dealDataForProcessing[bot_index] != NotAssigned)
@@ -445,11 +449,15 @@ function botCascaderFinish(bot_index)
         console.log("Current price : " + dealDataForProcessing[bot_index].current_price)
         console.log("Average price : " + dealDataForProcessing[bot_index].bought_average_price)
         //fileconsole.log("Bot B is currently: " + botB_dealdata.status)  
-        if (parseFloat(dealDataForProcessing[bot_index].current_price) > 
-            parseFloat(dealDataForProcessing[bot_index].bought_average_price))
+
+        percentage_of_bought_average_price = dealDataForProcessing[bot_index].bought_average_price * 0.02;
+        console.log("Average price minus 2% : " + percentage_of_bought_average_price);
+
+        if ((parseFloat(dealDataForProcessing[bot_index].current_price)) > 
+            (parseFloat(dealDataForProcessing[bot_index].bought_average_price - percentage_of_bought_average_price)))
         {
             console.log("Bot " + (bot_index + 1) + " Deal Id: " + dealDataForProcessing[bot_index].id);
-            console.log("Bot " + (bot_index + 1) + " Current Price is above breakeven");
+            console.log("Bot " + (bot_index + 1) + " Current Price is 2% less than breakeven");
             console.log("so stop bot " + (bot_index + 2) + " if it has a deal running");
             console.log("Is there a deal running? Yes if status is bought or completed");
             console.log("status is: " + dealDataForProcessing[bot_index + 1].status);
