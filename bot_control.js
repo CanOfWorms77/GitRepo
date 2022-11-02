@@ -593,10 +593,10 @@ const port = 5000;
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => 
-{
-    res.status(200).send('<h1>Hello</h1>');
-})
+//app.get('/', (req, res) => 
+//{
+    //res.status(200).send('<h1>Hello</h1>');
+//})
 
 app.listen(port, () => console.log("Server has started"));
 
