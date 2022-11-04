@@ -1,206 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>    
-     <script src="example.js"></script> 
-     <link   rel="stylesheet" href="style.css">
+  <head>  
+      <title>document</title>  
   </head>  
 
 
 <body>    
-  <div id="boxhead">
-  </div><!--end boxhead-->
-  <div id="bigContainer">
-   <div id="container">
-     <!-- HEADER-->
-     
-     <div id="PowerBar">
-      <div id="StartButtonArea">
-        <button class="enableDisableBtn engage" onclick="ActivateAutobots()"> Autobots Engage</button>
-      </div>
-      <div id="Balance">
-        <h1>$ 8110</h1>
-      </div>
-      <div id="PowerDisable">
-        <button class="enableDisableBtn PowerDisablebtn" onclick="disableTrade('XXX')">DISABLE</button>
-      </div>
-     </div>
+  <button id="get"></button>  
 
-     <!-- CONTENT AREA-->
-     <div id="content_area">
+  <script>
+      const getBtn = document.getElementById('get');
 
-       <!-- ALL ADA TRADES-->
-       <div id="all_ada_trades">
+      const baseUrl = 'http://18.130.149.113:5000/'
 
-        <div id="trade_header">
-          <H2>ADA</H2>
-        </div>
-
-        <div id="sum_of_trades">
-          <H2>$ 111.00</H2>
-        </div>
-
-        <div id="indivdual_trades">
-          <div id="enable_disable_btns">
-            <button class="enableDisableBtn disableBtn" onclick="disableTrade('ADA1')"> D</button><br>       
-            <button class="enableDisableBtn disableBtn" onclick="disableTrade('ADA2')"> D</button><br>
-            <button class="enableDisableBtn enableBtn"  onclick="disableTrade('ADA3')"> E</button><br>
-            <button class="enableDisableBtn enableBtn"  onclick="disableTrade('ADA4')"> E</button><br>
-            <button class="enableDisableBtn enableBtn"  onclick="disableTrade('ADA5')"> E</button>
-          </div>
-
-          <div id="safetyorders_used">          
-            <h2>2</h2>
-            <h2>1</h2>
-            <h2>0</h2>
-            <h2>0</h2>
-            <h2>0</h2>
-          </div>
-
-          <div id="profit_percentage">
-            <h2 id="ADAmessage1"> </h2>
-            <h2 id="ADAmessage2"> </h2>
-            <h2 id="ADAmessage3"> </h2>
-            <h2 id="ADAmessage4"> </h2>
-            <h2 id="ADAmessage5"> </h2>
-          </div>                      
-        </div>
-
-        <div id="disable_enable_trades">
-          <button class="enableDisableBtn disableAllOneCryptoBtn" onclick="disableTrade('ADAX')">DISABLE</button>
-        </div>  
-       </div><!-- END ALL ADA TRADES-->
-     
-       <!-- ALL ETH TRADES-->
-       <div id="all_eth_trades">
-
-        <div id="trade_header">
-          <H2>ETH</H2>
-        </div>
-
-        <div id="sum_of_trades">
-          <H2>$ 222.00</H2>
-        </div>
-
-        <div id="indivdual_trades">
-          <div id="enable_disable_btns">
-            <button class="enableDisableBtn disableBtn" onclick="disableTrade('ETH1')"> D</button><br>       
-            <button class="enableDisableBtn disableBtn" onclick="disableTrade('ETH2')"> D</button><br>
-            <button class="enableDisableBtn enableBtn"  onclick="disableTrade('ETH3')"> E</button><br>
-            <button class="enableDisableBtn enableBtn"  onclick="disableTrade('ETH4')"> E</button><br>
-            <button class="enableDisableBtn enableBtn"  onclick="disableTrade('ETH5')"> E</button>
-          </div>
-
-          <div id="safetyorders_used">          
-            <h2>2</h2>
-            <h2>2</h2>
-            <h2>0</h2>
-            <h2>0</h2>
-            <h2>0</h2>
-          </div>
-
-          <div id="profit_percentage">
-            <h2 id="ETHmessage1"> </h2>
-            <h2 id="ETHmessage2"> </h2>
-            <h2 id="ETHmessage3"> </h2>
-            <h2 id="ETHmessage4"> </h2>
-            <h2 id="ETHmessage5"> </h2>
-          </div>    
-          
-          <div id="disable_enable_trades">
-            <button class="enableDisableBtn disableAllOneCryptoBtn" onclick="disableTrade('ETHX')">DISABLE</button><br>
-          </div>  
-        </div>
-       </div><!-- END ALL ETH TRADES-->
-
-       <!-- ALL FTM TRADES-->
-       <div id="all_ftm_trades">
-
-        <div id="trade_header">
-          <H2>FTM</H2>
-        </div>
-
-        <div id="sum_of_trades">
-          <H2>$ 333.00</H2>
-        </div>
-
-        <div id="indivdual_trades">
-          <div id="enable_disable_btns">
-            <button class="enableDisableBtn disableBtn" onclick="disableTrade('FTM1')"> D</button><br>       
-            <button class="enableDisableBtn disableBtn" onclick="disableTrade('FTM2')"> D</button><br>
-            <button class="enableDisableBtn disableBtn" onclick="disableTrade('FTM3')"> D</button><br>
-            <button class="enableDisableBtn enableBtn"  onclick="disableTrade('FTM4')"> E</button><br>
-            <button class="enableDisableBtn enableBtn"  onclick="disableTrade('FTM5')"> E</button>
-          </div>
-
-          <div id="safetyorders_used">          
-            <h2>2</h2>
-            <h2>2</h2>
-            <h2>0</h2>
-            <h2>0</h2>
-            <h2>0</h2>
-          </div>
-
-          <div id="profit_percentage">
-            <h2 id="FTMmessage1"> </h2>
-            <h2 id="FTMmessage2"> </h2>
-            <h2 id="FTMmessage3"> </h2>
-            <h2 id="FTMmessage4"> </h2>
-            <h2 id="FTMmessage5"> </h2>
-          </div>       
-          
-          <div id="disable_enable_trades">
-            <button class="enableDisableBtn disableAllOneCryptoBtn" onclick="disableTrade('FTMX')">DISABLE</button><br>
-          </div>  
-        </div>
-       </div><!-- END ALL FTM TRADES-->
+      getBtn.addEventListener('click', getBotInfo);
+      async function getBotInfo(e) 
+      {
+          e.preventDefault()
+          const result = await fetch(baseUrl, { method: 'GET'});
+      }
+      console.log(res)
+  </script>
 
 
-       <!-- ALL CHZ TRADES-->
-       <div id="all_chz_trades">
-
-              <div id="trade_header">
-                <H2>CHZ</H2>
-              </div>
-      
-              <div id="sum_of_trades">
-                <H2>$ 444.00</H2>
-              </div>
-      
-              <div id="indivdual_trades">
-                <div id="enable_disable_btns">
-                  <button class="enableDisableBtn disableBtn" onclick="disableTrade('CHZ1')"> D</button><br>       
-                  <button class="enableDisableBtn disableBtn" onclick="disableTrade('CHZ2')"> D</button><br>
-                  <button class="enableDisableBtn disableBtn" onclick="disableTrade('CHZ3')"> D</button><br>
-                  <button class="enableDisableBtn enableBtn"  onclick="disableTrade('CHZ4')"> E</button><br>
-                  <button class="enableDisableBtn enableBtn"  onclick="disableTrade('CHZ5')"> E</button>
-                </div>
-      
-                <div id="safetyorders_used">          
-                  <h2>2</h2>
-                  <h2>2</h2>
-                  <h2>1</h2>
-                  <h2>0</h2>
-                  <h2>0</h2>
-                </div>
-      
-                <div id="profit_percentage">
-                  <h2 id="CHZmessage1"> </h2>
-                  <h2 id="CHZmessage2"> </h2>
-                  <h2 id="CHZmessage3"> </h2>
-                  <h2 id="CHZmessage4"> </h2>
-                  <h2 id="CHZmessage5"> </h2>
-                </div> 
-                
-                <div id="disable_enable_trades">
-                  <button class="enableDisableBtn disableAllOneCryptoBtn" onclick="disableTrade('CHZX')">DISABLE</button><br>
-                </div> 
-              </div>
-       </div><!-- END ALL CHZ TRADES-->
-
-     </div><!-- END CONTENT AREA-->
-   </div><!-- END CONTAINER AREA-->
- </div> <!-- END BIG CONTAINER AREA-->
-
-  </body>
+</body>
 
 </html>

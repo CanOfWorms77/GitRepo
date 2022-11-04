@@ -603,15 +603,16 @@ function botOrderUpdate(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
 });*/
 
 const express = require('express');
+const { info } = require('console');
 const app = express();
 const port = 5000;
 
 app.use(express.static('public'));
 
-//app.get('/', (req, res) => 
-//{
-    //res.status(200).send('<h1>Hello</h1>');
-//})
+app.get('/', (req, res) => 
+{
+    res.status(200).json({ info: BotGroups[mainLoopIndex]._botGroupName });
+})
 
 app.listen(port, () => console.log("Server has started"));
 
