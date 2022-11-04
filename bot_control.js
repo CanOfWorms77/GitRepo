@@ -544,6 +544,21 @@ function botOrderCompounder(dealData, botParams, bot_index)
                     }
                 }
             }
+            else if (dealData.status == 'failed')
+            {
+                for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
+                {
+                    if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == botParams.id)
+                    {
+                        BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = NoDealFound;
+                        console.log("failed deal reset");
+                    }
+                }
+            }
+            else
+            {
+                // No Action for now 
+            }
         }
 
     }
