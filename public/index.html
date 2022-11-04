@@ -10,16 +10,15 @@
       <button id="get"></button>  
   </form>   
 
-
   <script>
       const getBtn = document.getElementById('get');
 
-      const baseUrl = 'http://18.130.149.113:5000/'
+      const baseUrl = 'http://18.130.149.113:5000/';
 
       getBtn.addEventListener('click', getBotInfo);
       async function getBotInfo(e) 
       {
-          e.preventDefault()
+          e.preventDefault();
           const result = await fetch(baseUrl, { method: 'GET'});
       }
       console.log(res)
