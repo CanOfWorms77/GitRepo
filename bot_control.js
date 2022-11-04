@@ -611,7 +611,7 @@ app.use(express.static('public'));
 
 app.get('/', (req, res) => 
 {
-    res.status(200).json({ info: BotGroups[mainLoopIndex]._botGroupName });
+    //res.status(200).json({ info: BotGroups[mainLoopIndex]._botGroupName });
 })
 
 app.listen(port, () => console.log("Server has started"));
