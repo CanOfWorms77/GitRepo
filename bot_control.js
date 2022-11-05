@@ -605,6 +605,6 @@ function botOrderUpdate(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
     return res.end();
 });*/
 
-
-initBotData();
-mainLoop();
+module.exports = { initBotData, mainLoop };
+//initBotData();
+//mainLoop();

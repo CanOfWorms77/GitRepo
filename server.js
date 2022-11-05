@@ -3,10 +3,12 @@ const { info } = require('console');
 const app = express();
 const port = 5000;
 
-app.use(express.static('/public'));
+app.use(express.static('public'));
 
 var BotController = require('./bot_control.js');
 var BotInfo = BotController.BotGroups;
+
+const { initBotData, mainLoop } = require('./bot_control.js');
 
 app.get('/', (req, res) => 
 {
@@ -14,3 +16,5 @@ app.get('/', (req, res) =>
 })
 
 app.listen(port, () => console.log("Server has started"));
+initBotData();
+mainLoop();

@@ -1,7 +1,7 @@
 {
-  "name": "Bot Controller",
+  "name": "3commas-api-node",
   "version": "1.2.0",
-  "description": "Cascading bot system",
+  "description": "3commas API NodeJS wrapper",
   "main": "index.js",
   "scripts": 
   {
