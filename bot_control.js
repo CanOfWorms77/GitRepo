@@ -8,6 +8,8 @@ const fileconsole = new console.Console(fs.createWriteStream('./output.txt'))
 const MAX_NO_OF_BOTSPERGROUP = 4;
 
 var BotGroups = [];
+// Export for use in server
+module.exports = BotGroups;
 
 // Bot data table - "Bot Group name e.g. BTC", "DEVIATION_INDEX to start next bot e.g. -5", "Bot1Id", "Bot2Id" "Bot3Id" "Bot4Id",   
 var BotDataTable = 
@@ -20,10 +22,9 @@ var BotDataTable =
   ["APTOS", -8.0,  '9950825', '9950832', '9950835', '9950839' ],
   ["SOL",   -8.0,  '9954755', '9954761', '9954766', '9954769' ],
   ["AVAX",  -8.0,  '9980604', '9980606', '9980607', '9980609' ],
+  ["MINA",  -8.0,  '10016516','10016525','10016534','10016544'],
   ["LAST_ENTRY", null, null, null, null, null ],
 ] 
-
-//fileconsole.log('Node.js web server at port 5000 is running..')
 
 const api = new threeCommasAPI
 ({
@@ -592,6 +593,8 @@ function botOrderUpdate(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
     return NewBotParams;
 }
 
+
+
 /*var server = http.createServer(function (req, res) 
 {   
     res.write(BotGroups[mainLoopIndex]._botGroupName + "\n"); //write a response to the client
@@ -601,20 +604,6 @@ function botOrderUpdate(currentbotParams, NewBaseOrder, NewSafetyOrder, botId)
     //res.write(BotGroups[mainLoopIndex]._bot4Id + "\n"); //write a response to the client
     return res.end();
 });*/
-
-const express = require('express');
-const { info } = require('console');
-const app = express();
-const port = 5000;
-
-app.use(express.static('/public'));
-
-app.get('/', (req, res) => 
-{
-    //res.status(200).json({ info: BotGroups[mainLoopIndex]._botGroupName });
-})
-
-app.listen(port, () => console.log("Server has started"));
 
 
 initBotData();

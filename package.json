@@ -1,8 +1,13 @@
 {
-  "name": "3commas-api-node",
+  "name": "Bot Controller",
   "version": "1.2.0",
-  "description": "3commas API NodeJS wrapper",
+  "description": "Cascading bot system",
   "main": "index.js",
+  "scripts": 
+  {
+      "dev": "nodemon server.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "engines": {
     "node": ">=8"
   },
@@ -25,11 +30,14 @@
   "bugs": {
     "url": "https://github.com/rentorm/3commas-api-node/issues"
   },
-  "author": "Rento",
+  "author": "Dave Holt",
   "license": "gpl-3.0",
   "dependencies": {
     "express": "^4.18.2",
     "node-fetch": "^2.3.0",
     "qs-stringify": "^1.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
