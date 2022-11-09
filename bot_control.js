@@ -132,6 +132,9 @@ const initBotData = async () =>
             }
             else
             {
+                BotGroups[bot_group_no]._botId[bot_index] = NotAssigned;
+                BotGroups[bot_group_no]._dealId_Bot[bot_index] = NotAssigned;
+
                 console.log("No Bot " + (bot_index + 1) + "assigned");
             }
 
