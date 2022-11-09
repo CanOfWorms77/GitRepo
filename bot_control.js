@@ -5,24 +5,27 @@ var fs = require('fs');
 
 const fileconsole = new console.Console(fs.createWriteStream('./output.txt'))
 
-const MAX_NO_OF_BOTSPERGROUP = 4;
+const MAX_NO_OF_BOTSPERGROUP = 5;
 
 var BotGroups = [];
 // Export for use in server
 module.exports = BotGroups;
 
+const NoDealFound = "No deal found"
+const NotAssigned = "Not Assigned"
+
 // Bot data table - "Bot Group name e.g. BTC", "DEVIATION_INDEX to start next bot e.g. -5", "Bot1Id", "Bot2Id" "Bot3Id" "Bot4Id",   
 var BotDataTable = 
 [
-  ["MATIC", -8.0,  '9827195', '9827197', '9827201', '9827204' ],
-  ["HBAR",  -8.0,  '9842410', '9842425', '9842433', '9842439' ],
-  ["ATOM",  -8.0,  '9929991', '9930041', '9930044', '9930049' ],
-  ["LINK",  -8.0,  '9930102', '9930107', '9930109', '9930115' ],
-  ["ADA",   -8.0,  '9948518', '9948532', '9948534', '9948539' ],
-  ["APTOS", -8.0,  '9950825', '9950832', '9950835', '9950839' ],
-  ["SOL",   -8.0,  '9954755', '9954761', '9954766', '9954769' ],
-  ["AVAX",  -8.0,  '9980604', '9980606', '9980607', '9980609' ],
-  ["MINA",  -8.0,  '10016516','10016525','10016534','10016544'],
+  ["MATIC", -8.0,  '9827195', '9827197', '9827201', '9827204', NotAssigned ],
+  ["HBAR",  -8.0,  '9842410', '9842425', '9842433', '9842439', NotAssigned ],
+  ["ATOM",  -8.0,  '9929991', '9930041', '9930044', '9930049', NotAssigned ],
+  ["LINK",  -8.0,  '9930102', '9930107', '9930109', '9930115', NotAssigned ],
+  ["ADA",   -8.0,  '9948518', '9948532', '9948534', '9948539', NotAssigned ],
+  ["APTOS", -8.0,  '9950825', '9950832', '9950835', '9950839', NotAssigned ],
+  ["SOL",   -8.0,  '9954755', '9954761', '9954766', '9954769', '10046411'  ],
+  ["AVAX",  -8.0,  '9980604', '9980606', '9980607', '9980609', NotAssigned ],
+  ["MINA",  -8.0,  '10016516','10016525','10016534','10016544',NotAssigned ],
   ["LAST_ENTRY", null, null, null, null, null ],
 ] 
 
@@ -40,11 +43,12 @@ class botController
    {
       this._botGroupName = ""
       this._percentDeviationIndexToStart = 0
-      this._botId = [ 0, 0, 0, 0 ]
-      this._botEnabled = [ false, false, false, false ]
-      this._dealId_Bot = [ 0, 0, 0, 0 ]
-      this._numberOfBotEnables = [ 0, 0, 0, 0 ]
-      this._numberOfDealsOpened = [ 0, 0, 0, 0 ]
+      this._botId = [ 0, 0, 0, 0, 0 ]
+      this._botEnabled = [ false, false, false, false, false ]
+      this._dealId_Bot = [ 0, 0, 0, 0, 0 ]
+      this._numberOfBotEnables = [ 0, 0, 0, 0, 0 ]
+      this._numberOfDealsOpened = [ 0, 0, 0, 0, 0 ]
+      this._maxNumberOfBots = 0;
    }
 }
 
@@ -61,9 +65,6 @@ const BOT_DEALS_UPDATE = 4
 
 const paperAccount = '32030096'
 const realAccount = '29678480'
-
-const NoDealFound = "No deal found"
-const NotAssigned = "Not Assigned"
 
 var task_counters = [ 0, 0, 0, 0, 0 ]
 var task_real_counters = [ 0, 0, 0, 0, 0 ]
@@ -121,10 +122,19 @@ const initBotData = async () =>
         BotGroups[bot_group_no]._percentDeviationIndexToStart = BotDataTable[bot_group_no][DEVIATION_INDEX];
 
         for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
-        {
-            BotGroups[bot_group_no]._botId[bot_index] = BotDataTable[bot_group_no][BOTS_OFFSET_INDEX + bot_index];
-            //fileconsole.log(" bot index: " + BotGroups[bot_group_no]._botId[bot_index])
-            BotGroups[bot_group_no]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[bot_group_no]._botId[bot_index], dealsData);
+        { 
+            if (BotDataTable[bot_group_no][BOTS_OFFSET_INDEX + bot_index] != NotAssigned)
+            {
+                BotGroups[bot_group_no]._maxNumberOfBots++;
+                BotGroups[bot_group_no]._botId[bot_index] = BotDataTable[bot_group_no][BOTS_OFFSET_INDEX + bot_index];
+                //fileconsole.log(" bot index: " + BotGroups[bot_group_no]._botId[bot_index])
+                BotGroups[bot_group_no]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[bot_group_no]._botId[bot_index], dealsData);
+            }
+            else
+            {
+                console.log("No Bot " + (bot_index + 1) + "assigned");
+            }
+
         }
 
         //fileconsole.log(BotGroups[bot_group_no]);              
@@ -158,8 +168,11 @@ const runBotEngine = async () =>
                     let botInfo = NotAssigned;
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                     {
-                        botInfo = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
-                        BotGroups[mainLoopIndex]._botEnabled[bot_index] = botInfo.is_enabled; 
+                        if (BotGroups[mainLoopIndex]._botId[bot_index] != NotAssigned)
+                        {
+                            botInfo = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
+                            BotGroups[mainLoopIndex]._botEnabled[bot_index] = botInfo.is_enabled; 
+                        }
                     }
                     
                     console.log(BotGroups[mainLoopIndex]);
@@ -187,11 +200,6 @@ const runBotEngine = async () =>
                         if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] != NoDealFound)
                         {
                             dealDataForProcessing[bot_index] = await api.getDeal(BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
-
-                            if (BotGroups[mainLoopIndex]._botGroupName == "APE")
-                            {
-                                console.log("STATUS: " + dealDataForProcessing[0].status);
-                            }
                         }
                         else
                         {
@@ -215,7 +223,7 @@ const runBotEngine = async () =>
         //                fileconsole.log("==========================================================")
                         
                         // This if statement prevents the last bot from being included as the primary bot in the cascader start
-                        if (bot_index < (MAX_NO_OF_BOTSPERGROUP - 1))
+                        if (bot_index < (BotGroups[mainLoopIndex]._maxNumberOfBots - 1))
                         {
                             botEnableFlag = botCascaderStart(BotGroups[mainLoopIndex]._percentDeviationIndexToStart, bot_index);
                             
@@ -255,7 +263,7 @@ const runBotEngine = async () =>
         //                fileconsole.log("==========================================================")
 
                         // This if statement prevents the last bot from being included as the primary bot in the cascader finish
-                        if (bot_index < (MAX_NO_OF_BOTSPERGROUP - 1))
+                        if (bot_index < (BotGroups[mainLoopIndex]._maxNumberOfBots - 1))
                         {
                             botDisableFlag = botCascaderFinish(bot_index);
 
@@ -294,20 +302,23 @@ const runBotEngine = async () =>
 
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                     {                
-                        // get the current bot params - This is used to update params
-                        currentBotParams = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
-                        //fileconsole.log("CurrentBotParams Id for Bot " + (bot_index + 1) + currentBotParams.id)
-                        if (currentBotParams != NotAssigned)
+                        if (BotGroups[mainLoopIndex]._botId[bot_index] != NotAssigned)
                         {
-                            // Use this data to update bot status record
-                            BotGroups[mainLoopIndex]._botEnabled[bot_index] = currentBotParams.is_enabled;
-                            
-                            //fileconsole.log("Bot: " + (bot_index + 1) + " Bot enable is: " + BotGroups[mainLoopIndex]._botEnabled[bot_index])
-                            newBotParams = botOrderCompounder(dealDataForProcessing[bot_index], currentBotParams, bot_index);
-                            //fileprofitconsole.log("Got here 2" + newBotParams.base_order_volume)
-                            if (newBotParams != NotAssigned)
+                            // get the current bot params - This is used to update params
+                            currentBotParams = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
+                            //fileconsole.log("CurrentBotParams Id for Bot " + (bot_index + 1) + currentBotParams.id)
+                            if (currentBotParams != NotAssigned)
                             {
-                                const updateResult = await api.botUpdate(newBotParams);
+                                // Use this data to update bot status record
+                                BotGroups[mainLoopIndex]._botEnabled[bot_index] = currentBotParams.is_enabled;
+                                
+                                //fileconsole.log("Bot: " + (bot_index + 1) + " Bot enable is: " + BotGroups[mainLoopIndex]._botEnabled[bot_index])
+                                newBotParams = botOrderCompounder(dealDataForProcessing[bot_index], currentBotParams, bot_index);
+                                //fileprofitconsole.log("Got here 2" + newBotParams.base_order_volume)
+                                if (newBotParams != NotAssigned)
+                                {
+                                    const updateResult = await api.botUpdate(newBotParams);
+                                }
                             }
                         }
 
@@ -341,16 +352,36 @@ const runBotEngine = async () =>
 
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                     {
-                        if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] == NoDealFound)
+                        if (BotGroups[mainLoopIndex]._botId[bot_index] != NotAssigned)
                         {
-                            BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[mainLoopIndex]._botId[bot_index], 
-                                                                                               NewdealsData);
-
-                            if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] != NoDealFound)
+                            // get the current bot params - This is used to update params
+                            currentBotParams = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
+                            //fileconsole.log("CurrentBotParams Id for Bot " + (bot_index + 1) + currentBotParams.id)
+                            if (currentBotParams != NotAssigned)
                             {
-                                //fileconsole.log("DealUpdated: " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
-                                BotGroups[mainLoopIndex]._numberOfDealsOpened[bot_index]++;
-                            }                                                                
+                                // Use this data to update bot status record
+                                BotGroups[mainLoopIndex]._botEnabled[bot_index] = currentBotParams.is_enabled;
+                                
+                                //fileconsole.log("Bot: " + (bot_index + 1) + " Bot enable is: " + BotGroups[mainLoopIndex]._botEnabled[bot_index])
+                                newBotParams = botOrderCompounder(dealDataForProcessing[bot_index], currentBotParams, bot_index);
+                                //fileprofitconsole.log("Got here 2" + newBotParams.base_order_volume)
+                                if (newBotParams != NotAssigned)
+                                {
+                                    const updateResult = await api.botUpdate(newBotParams);
+                                }
+                            }
+                            
+                            if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] == NoDealFound)
+                            {
+                                BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[mainLoopIndex]._botId[bot_index], 
+                                                                                                NewdealsData);
+
+                                if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] != NoDealFound)
+                                {
+                                    //fileconsole.log("DealUpdated: " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
+                                    BotGroups[mainLoopIndex]._numberOfDealsOpened[bot_index]++;
+                                }                                                                
+                            }
                         }
                     }
 
