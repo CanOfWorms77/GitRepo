@@ -133,9 +133,9 @@ const initBotData = async () =>
             else
             {
                 BotGroups[bot_group_no]._botId[bot_index] = NotAssigned;
-                BotGroups[bot_group_no]._dealId_Bot[bot_index] = NotAssigned;
+                BotGroups[bot_group_no]._dealId_Bot[bot_index] = NoDealFound;
 
-                console.log("No Bot " + (bot_index + 1) + "assigned");
+                console.log("No Bot " + (bot_index + 1) + " assigned");
             }
 
         }
@@ -213,7 +213,6 @@ const runBotEngine = async () =>
                                 await api.botEnable(BotGroups[mainLoopIndex]._botId[bot_index]);
                                 //fileconsole.log("Enabling Bot :" + (bot_index + 1));
                             }
-
                         }
 
                         /*********************************************************************************************** */
