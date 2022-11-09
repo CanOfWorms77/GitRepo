@@ -26,7 +26,7 @@ var BotDataTable =
   ["SOL",   -8.0,  '9954755', '9954761', '9954766', '9954769', '10046411'  ],
   ["AVAX",  -8.0,  '9980604', '9980606', '9980607', '9980609', NotAssigned ],
   ["MINA",  -8.0,  '10016516','10016525','10016534','10016544',NotAssigned ],
-  ["LAST_ENTRY", null, null, null, null, null ],
+  ["LAST_ENTRY", null, null, null, null, null, null ],
 ] 
 
 const api = new threeCommasAPI
@@ -71,7 +71,7 @@ var task_real_counters = [ 0, 0, 0, 0, 0 ]
 
 var botEngineCycleFinished = false
 
-var dealDataForProcessing = [ NotAssigned, NotAssigned, NotAssigned, NotAssigned ]
+var dealDataForProcessing = [ NotAssigned, NotAssigned, NotAssigned, NotAssigned, NotAssigned ]
 
 module.exports = botController
 
