@@ -227,6 +227,7 @@ const runBotEngine = async () =>
                         // This if statement prevents the last bot from being included as the primary bot in the cascader start
                         if (bot_index < (BotGroups[mainLoopIndex]._maxNumberOfBots - 1))
                         {
+                            console.log("max_number_of_bots_for_group " + BotGroups[mainLoopIndex]._maxNumberOfBots)
                             botEnableFlag = botCascaderStart(BotGroups[mainLoopIndex]._percentDeviationIndexToStart, bot_index);
                             
                             if (botEnableFlag == true)
@@ -448,11 +449,12 @@ function botCascaderStart(botStartDeviationIndex, bot_index)
                 // Is there a already deal running on bot2, if not start the bot
                 if (dealDataForProcessing[bot_index + 1] == NotAssigned)
                 {
+
                     if (BotGroups[mainLoopIndex]._botEnabled[bot_index + 1] == false)
                     {
                         enable = true;
                         // bot index + 2 - start from 0 and wanting the second bot of the pair being compared
-                        fileconsole.log("Bot " + (bot_index + 2) + " is enabling: " + enable);
+                        console.log("Bot " + (bot_index + 2) + " is enabling: " + enable);
                     }
                 }
             }
