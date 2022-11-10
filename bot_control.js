@@ -345,7 +345,7 @@ const runBotEngine = async () =>
                     //fileconsole.log("================") 
 
                     // Reset deal data for next main bot group index
-                    dealDataForProcessing = [ NotAssigned, NotAssigned, NotAssigned, NotAssigned ];
+                    dealDataForProcessing = [ NotAssigned, NotAssigned, NotAssigned, NotAssigned, NotAssigned ];
 
                     // Update new Deal Ids here
                     // get latest active deal data for this account
