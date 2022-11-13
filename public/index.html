@@ -22,7 +22,7 @@
           const result = await fetch(baseUrl, { method: 'GET'});
 
           const botinfo = await result.json();
-          groupName.value = botinfo.info;
+          groupName = botinfo.info;
           console.log(result);
       }
 
