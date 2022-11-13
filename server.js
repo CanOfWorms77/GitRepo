@@ -10,8 +10,11 @@ var BotInfo = BotController.BotGroups;
 
 const { initBotData, mainLoop } = require('./bot_control.js');
 
-app.get('/', (req, res) => 
+app.get('/info/:dynamic', (req, res) => 
 {
+    const { dynamic } = req.params;
+    const { key } = req.query;
+    console.log(dynamic, key);
     res.status(200).json({ info: BotInfo[0]._botGroupName });
 })
 
