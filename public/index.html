@@ -22,8 +22,12 @@
       {
           e.preventDefault();
           const result = await fetch(baseUrl, { method: 'GET'});
+
+          const botinfo = await result.json();
+          groupName.value = botinfo.info;
+          console.log(result);
       }
-      console.log(res)
+
   </script>
 
 </body>
