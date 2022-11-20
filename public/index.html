@@ -22,8 +22,8 @@
           const result = await fetch(baseUrl, { method: 'GET'});
 
           const botinfo = await result.json();
-          const groupName = botinfo.info;
-          console.log(botinfo.info);
+          const groupName = botinfo;
+          console.log(botinfo);
           console.log(result);
       }
 
