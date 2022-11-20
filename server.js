@@ -4,13 +4,14 @@ const app = express();
 const port = 5000;
 
 app.use(express.static('public'));
+app.use(express.json());
 
 var BotController = require('./bot_control.js');
 var BotInfo = BotController.BotGroups;
 
 const { initBotData, mainLoop } = require('./bot_control.js');
 
-app.get('', (req, res) => 
+app.get('/info/:dynamic', (req, res) => 
 {
     const { dynamic } = req.params;
     const { key } = req.query;
