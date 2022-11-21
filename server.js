@@ -5,6 +5,8 @@ const port = 5000;
 
 app.use(express.static('public'));
 app.use(express.json());
+const bodyParser = require("body-parser"); 
+router.use(bodyParser.json());
 
 var BotController = require('./bot_control.js');
 var BotInfo = BotController.BotGroups;
