@@ -19,12 +19,15 @@
       async function getBotInfo(e) 
       {
           e.preventDefault();
-          const result = await fetch(baseUrl, { method: 'GET'});
+          const res = await fetch(baseUrl, 
+          { 
+                method: 'GET'
+          })
 
           //const botinfo = await result.json();
           //const groupName = botinfo;
           //console.log(botinfo);
-          console.log(result);
+          console.log(res);
       }
 
   </script>
