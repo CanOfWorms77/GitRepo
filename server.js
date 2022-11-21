@@ -16,9 +16,10 @@ app.get('/', (req, res) =>
     //const { dynamic } = req.params;
     //const { key } = req.query;
     //console.log(dynamic, key);
-    const params = { name: BotInfo };
-    const json_params = json.stringify(params);
-    res.status(200).json(json_params);
+    //const params = { name: BotInfo };
+    //const json_params = json.stringify(params);
+    botName = BotGroups[bot_group_no]._botGroupName
+    res.status(200).json({info: botName});
 })
 
 app.listen(port, () => console.log("Server has started"));
