@@ -16,7 +16,7 @@ app.get('/', (req, res) =>
     //const { dynamic } = req.params;
     //const { key } = req.query;
     //console.log(dynamic, key);
-    const params = { name: BotInfo[0]._botGroupName };
+    const params = { name: BotInfo };
     const json_params = json.stringify(params);
     res.status(200).send(json_params);
 })
