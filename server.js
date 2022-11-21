@@ -11,13 +11,13 @@ var BotInfo = BotController.BotGroups;
 
 const { initBotData, mainLoop } = require('./bot_control.js');
 
-app.get('/', (req, res) => 
+app.get('/info', (req, res) => 
 {
-    const { dynamic } = req.params;
-    const { key } = req.query;
-    console.log(dynamic, key);
-    const params = { name: BotInfo[0]._botGroupName };
-    const json_params = json.stringify(params);
+    //const { dynamic } = req.params;
+    //const { key } = req.query;
+    //console.log(dynamic, key);
+    //const params = { name: BotInfo[0]._botGroupName };
+    //const json_params = json.stringify(params);
     res.status(200).json('<h1>WooHoo</h1>');
 })
 
