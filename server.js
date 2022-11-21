@@ -1,5 +1,5 @@
 const express = require('express');
-const { info } = require('console');
+//const { info } = require('console');
 const app = express();
 const port = 5000;
 
@@ -11,7 +11,7 @@ var BotInfo = BotController.BotGroups;
 
 const { initBotData, mainLoop } = require('./bot_control.js');
 
-app.get('/info', (req, res) => 
+app.get('/', (req, res) => 
 {
     //const { dynamic } = req.params;
     //const { key } = req.query;
