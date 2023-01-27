@@ -17,7 +17,7 @@ const NotAssigned = "Not Assigned"
 // Bot data table - "Bot Group name e.g. BTC", "DEVIATION_INDEX to start next bot e.g. -5", "Bot1Id", "Bot2Id" "Bot3Id" "Bot4Id",   
 var BotDataTable = 
 [
-//  ["MATIC", -8.0,  '9827195', '9827197', '9827201', '9827204', '10130490' ],
+  ["MATIC", -8.0,  '9827195', '9827197', '9827201', '9827204', '10130490' ],
 //  ["HBAR",  -8.0,  '9842410', '9842425', '9842433', '9842439', NotAssigned],
 //  ["ATOM",  -8.0,  '9929991', '9930041', '9930044', '9930049', '10094900' ],
   ["LINK",  -8.0,  '9930102', '9930107', '9930109', '9930115', '10094894' ],
