@@ -13,6 +13,7 @@ module.exports = BotGroups;
 
 const NoDealFound = "No deal found"
 const NotAssigned = "Not Assigned"
+const NoUpdateRequired = "No Update Required"
 
 // Bot data table - "Bot Group name e.g. BTC", "DEVIATION_INDEX to start next bot e.g. -5", "Bot1Id", "Bot2Id" "Bot3Id" "Bot4Id",   
 var BotDataTable = 
@@ -302,22 +303,35 @@ const runBotEngine = async () =>
 
                     let updateResult = null;
                     let currentBotParams = NotAssigned;
+                    let SecondBotParams  = NotAssigned;
                     let newBotParams = NotAssigned;
 
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                     {                
-                        if (BotGroups[mainLoopIndex]._botId[bot_index] != NotAssigned)
+                        if (BotGroups[mainLoopIndex]._botId[bot_index] != NotAssigned)                        
                         {
-                            // get the current bot params - This is used to update params
+                            // Experiment to add the compound to the bot below current, do not add to the 1st bot,
+                            // this can be updated manually, and save the profit into the pool if on the last bot
+                            // get the current bot params - This is used to update param
                             currentBotParams = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
+                            
+                            if ((bot_index + 1) < MAX_NO_OF_BOTSPERGROUP)
+                            {
+                                SecondBotParams = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index + 1]);
+                            }
+                            else
+                            {
+                                SecondBotParams = NoUpdateRequired;
+                            }
+
                             //fileconsole.log("CurrentBotParams Id for Bot " + (bot_index + 1) + currentBotParams.id)
-                            if (currentBotParams != NotAssigned)
+                            if ((currentBotParams != NotAssigned) && (SecondBotParams != NoUpdateRequired))
                             {
                                 // Use this data to update bot status record
                                 BotGroups[mainLoopIndex]._botEnabled[bot_index] = currentBotParams.is_enabled;
                                 
                                 //fileconsole.log("Bot: " + (bot_index + 1) + " Bot enable is: " + BotGroups[mainLoopIndex]._botEnabled[bot_index])
-                                newBotParams = botOrderCompounder(dealDataForProcessing[bot_index], currentBotParams, bot_index);
+                                newBotParams = botOrderCompounder(dealDataForProcessing[bot_index], SecondBotParams, bot_index);
                                 //fileprofitconsole.log("Got here 2" + newBotParams.base_order_volume)
                                 if (newBotParams != NotAssigned)
                                 {
@@ -327,6 +341,7 @@ const runBotEngine = async () =>
                         }
 
                         currentBotParams = NotAssigned;
+                        SecondBotParams  = NotAssigned;
                         newBotParams = NotAssigned;
                     }
                     currentTask = BOT_DEALS_UPDATE;
@@ -359,7 +374,7 @@ const runBotEngine = async () =>
                         if (BotGroups[mainLoopIndex]._botId[bot_index] != NotAssigned)
                         {
                             // get the current bot params - This is used to update params
-                            currentBotParams = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
+/*                            currentBotParams = await api.botShow(BotGroups[mainLoopIndex]._botId[bot_index]);
                             //fileconsole.log("CurrentBotParams Id for Bot " + (bot_index + 1) + currentBotParams.id)
                             if (currentBotParams != NotAssigned)
                             {
@@ -374,6 +389,7 @@ const runBotEngine = async () =>
                                     const updateResult = await api.botUpdate(newBotParams);
                                 }
                             }
+*/
                             
                             if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] == NoDealFound)
                             {
