@@ -51,6 +51,7 @@ class botController
       this._numberOfBotEnables = [ 0, 0, 0, 0, 0 ]
       this._numberOfDealsOpened = [ 0, 0, 0, 0, 0 ]
       this._maxNumberOfBots = 0;
+      this._prev_dealId_bot = [ 0, 0, 0, 0, 0 ] // Use to stop bot compounder working on same deal if completed
    }
 }
 
@@ -139,6 +140,8 @@ const initBotData = async () =>
 
                 console.log("No Bot " + (bot_index + 1) + " assigned");
             }
+
+            BotGroups[bot_group_no]._prev_dealId_bot = NoDealFound;
 
         }
 
@@ -548,43 +551,65 @@ function botOrderCompounder(dealData, botParams, bot_index)
             //fileconsole.log("Deal data: " + dealData.status)
             if (dealData.status == 'completed')
             {             
-                console.log("Bot " + botParams.id);
-                
-                // Distribute Profit
-                console.log("Deal - Final Profit: " + dealData.usd_final_profit);
-    
-                // Get the percentages of the final profit. for now weight this to the current bot
-    
-                // Don't increment orders if the profit is negative for some reason
-                if (dealData.usd_final_profit > 0)
+                // don't run the compounder bit if deal has been compounded already since completing
+                // and the completed flag just not cleared down yet
+                if (dealData.id != BotGroups[mainLoopIndex]._prev_dealId_bot[bot_index])
                 {
-                    let baseOrderCompound = (dealData.usd_final_profit * 0.11); // 10%
-                    // When safety ordered is doubled in the bot, the added compound will doubled.
-                    // So the weighting of the profit will be, 11% added to first bot, 
-                    // 22% added to second bot, 44% to third bot and 23% left over
-                    let safetyOrderCompound = (dealData.usd_final_profit * 0.22); // 20%
+                    // Save deal data to previous flag
+                    BotGroups[mainLoopIndex]._prev_dealId_bot[bot_index] = dealData.id;
+                
+                    console.log("Bot " + botParams.id);
                     
+                    // Distribute Profit
+                    console.log("Deal - Final Profit: " + dealData.usd_final_profit);
         
-                    console.log("Base order compound value " + baseOrderCompound);
-                    console.log("Safety order compound value " + safetyOrderCompound);
+                    // Get the percentages of the final profit. for now weight this to the current bot
         
-                    console.log("Current base order: " + botParams.base_order_volume);
-                    console.log("Current safety order: " + botParams.safety_order_volume);
+                    // Don't increment orders if the profit is negative for some reason
+                    if (dealData.usd_final_profit > 0)
+                    {
+                        let baseOrderCompound = (dealData.usd_final_profit * 0.11); // 10%
+                        // When safety ordered is doubled in the bot, the added compound will doubled.
+                        // So the weighting of the profit will be, 11% added to first bot, 
+                        // 22% added to second bot, 44% to third bot and 23% left over
+                        let safetyOrderCompound = (dealData.usd_final_profit * 0.22); // 20%
+                        
+            
+                        console.log("Base order compound value " + baseOrderCompound);
+                        console.log("Safety order compound value " + safetyOrderCompound);
+            
+                        console.log("Current base order: " + botParams.base_order_volume);
+                        console.log("Current safety order: " + botParams.safety_order_volume);
+            
+                        let newBaseOrder = parseFloat(botParams.base_order_volume) + parseFloat(baseOrderCompound);
+                        let newSafetyOrder = parseFloat(botParams.safety_order_volume) + parseFloat(safetyOrderCompound);
+            
+                        console.log("New base order: " + newBaseOrder);
+                        console.log("New safety order: " + newSafetyOrder);
         
-                    let newBaseOrder = parseFloat(botParams.base_order_volume) + parseFloat(baseOrderCompound);
-                    let newSafetyOrder = parseFloat(botParams.safety_order_volume) + parseFloat(safetyOrderCompound);
-        
-                    console.log("New base order: " + newBaseOrder);
-                    console.log("New safety order: " + newSafetyOrder);
-    
-                    newBotParams = botOrderUpdate(botParams, 
-                                                  parseFloat(newBaseOrder), 
-                                                  parseFloat(newSafetyOrder), 
-                                                  botParams.id);
+                        newBotParams = botOrderUpdate(botParams, 
+                                                    parseFloat(newBaseOrder), 
+                                                    parseFloat(newSafetyOrder), 
+                                                    botParams.id);
 
-                    //fileprofitconsole.log("WTF..." + newBotParams)
-                    //fileprofitconsole.log("WTF..." + newBotParams.base_order_volume)
-          
+                        //fileprofitconsole.log("WTF..." + newBotParams)
+                        //fileprofitconsole.log("WTF..." + newBotParams.base_order_volume)
+            
+                        // Now that the current deal has been completed, reset the deal Id, ready to be updated
+                        // with next deal
+                        for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
+                        {
+                            if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == botParams.id)
+                            {
+                                BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = NoDealFound;
+                                console.log("Completed deal reset");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    console.log("Already compounded");
                     // Now that the current deal has been completed, reset the deal Id, ready to be updated
                     // with next deal
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
@@ -592,7 +617,7 @@ function botOrderCompounder(dealData, botParams, bot_index)
                         if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == botParams.id)
                         {
                             BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = NoDealFound;
-                            console.log("Completed deal reset");
+                            console.log("Completed deal reset - already compounded");
                         }
                     }
                 }
