@@ -548,10 +548,10 @@ function botOrderCompounder(dealData, botParams, bot_index)
             //fileconsole.log("Deal data: " + dealData.status)
             if (dealData.status == 'completed')
             {             
-                fileconsole.log("Bot " + botParams.id);
+                console.log("Bot " + botParams.id);
                 
                 // Distribute Profit
-                fileconsole.log("Deal - Final Profit: " + dealData.usd_final_profit);
+                console.log("Deal - Final Profit: " + dealData.usd_final_profit);
     
                 // Get the percentages of the final profit. for now weight this to the current bot
     
@@ -565,17 +565,17 @@ function botOrderCompounder(dealData, botParams, bot_index)
                     let safetyOrderCompound = (dealData.usd_final_profit * 0.22); // 20%
                     
         
-                    fileconsole.log("Base order compound value " + baseOrderCompound);
-                    fileconsole.log("Safety order compound value " + safetyOrderCompound);
+                    console.log("Base order compound value " + baseOrderCompound);
+                    console.log("Safety order compound value " + safetyOrderCompound);
         
-                    fileconsole.log("Current base order: " + botParams.base_order_volume);
-                    fileconsole.log("Current safety order: " + botParams.safety_order_volume);
+                    console.log("Current base order: " + botParams.base_order_volume);
+                    console.log("Current safety order: " + botParams.safety_order_volume);
         
                     let newBaseOrder = parseFloat(botParams.base_order_volume) + parseFloat(baseOrderCompound);
                     let newSafetyOrder = parseFloat(botParams.safety_order_volume) + parseFloat(safetyOrderCompound);
         
-                    fileconsole.log("New base order: " + newBaseOrder);
-                    fileconsole.log("New safety order: " + newSafetyOrder);
+                    console.log("New base order: " + newBaseOrder);
+                    console.log("New safety order: " + newSafetyOrder);
     
                     newBotParams = botOrderUpdate(botParams, 
                                                   parseFloat(newBaseOrder), 
@@ -592,7 +592,7 @@ function botOrderCompounder(dealData, botParams, bot_index)
                         if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == botParams.id)
                         {
                             BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = NoDealFound;
-                            fileconsole.log("Completed deal reset");
+                            console.log("Completed deal reset");
                         }
                     }
                 }
