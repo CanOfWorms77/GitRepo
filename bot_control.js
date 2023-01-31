@@ -553,10 +553,16 @@ function botOrderCompounder(dealData, botParams, bot_index)
             {             
                 // don't run the compounder bit if deal has been compounded already since completing
                 // and the completed flag just not cleared down yet
+                console.log("Completed Deal Id " + dealData.id);
+                console.log("Previous Deal Id " + BotGroups[mainLoopIndex]._prev_dealId_bot[bot_index]);
+
                 if (dealData.id != BotGroups[mainLoopIndex]._prev_dealId_bot[bot_index])
                 {
                     // Save deal data to previous flag
                     BotGroups[mainLoopIndex]._prev_dealId_bot[bot_index] = dealData.id;
+                    console.log("Getting Here");
+                    console.log("Completed Deal Id " + dealData.id);
+                    console.log("Previous Deal Id " + BotGroups[mainLoopIndex]._prev_dealId_bot[bot_index]);
                 
                     console.log("Bot " + botParams.id);
                     
