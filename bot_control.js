@@ -392,16 +392,17 @@ const runBotEngine = async () =>
                                     const updateResult = await api.botUpdate(newBotParams);
                                 }
                             }
-*/
+*/                          
+                            console.log("Deal Updater");
                             
                             if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] == NoDealFound)
                             {
-                                BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[mainLoopIndex]._botId[bot_index], 
-                                                                                                NewdealsData);
+                                BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[mainLoopIndex]._botId[bot_index], NewdealsData);
 
+                                console.log("DealMatcher " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
                                 if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] != NoDealFound)
                                 {
-                                    //fileconsole.log("DealUpdated: " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
+                                    console.log("DealUpdated: " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
                                     BotGroups[mainLoopIndex]._numberOfDealsOpened[bot_index]++;
                                 }                                                                
                             }
@@ -414,7 +415,7 @@ const runBotEngine = async () =>
             break
         
         default:
-            fileconsole.log("Shit - Shouldnt be here");
+            console.log("Shit - Shouldnt be here");
             break
     }                      
 
@@ -547,8 +548,8 @@ function botOrderCompounder(dealData, botParams, bot_index)
         if ((botParams != undefined) && (botParams != NotAssigned))
         {
             //fileprofitconsole.log("Got here:- " + dealData.status)
-            //fileconsole.log("OrderCompounder: " +  dealData.id)
-            //fileconsole.log("Deal data: " + dealData.status)
+            fileconsole.log("OrderCompounder: " +  dealData.id)
+            console.log("Deal data: " + dealData.status)
             if (dealData.status == 'completed')
             {             
                 // don't run the compounder bit if deal has been compounded already since completing
