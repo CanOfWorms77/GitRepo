@@ -334,7 +334,7 @@ const runBotEngine = async () =>
                                 BotGroups[mainLoopIndex]._botEnabled[bot_index] = currentBotParams.is_enabled;
                                 
                                 //fileconsole.log("Bot: " + (bot_index + 1) + " Bot enable is: " + BotGroups[mainLoopIndex]._botEnabled[bot_index])
-                                newBotParams = botOrderCompounder(dealDataForProcessing[bot_index], SecondBotParams, bot_index);
+                                newBotParams = botOrderCompounder(dealDataForProcessing[bot_index], SecondBotParams, currentBotParams.id, bot_index);
                                 //fileprofitconsole.log("Got here 2" + newBotParams.base_order_volume)
                                 if (newBotParams != NotAssigned)
                                 {
@@ -537,7 +537,7 @@ function botCascaderFinish(bot_index)
     return disable;
 }
 
-function botOrderCompounder(dealData, botParams, bot_index)
+function botOrderCompounder(dealData, botParams, controlBotId, bot_index)
 {
     var newBotParams = NotAssigned;
     
@@ -548,8 +548,9 @@ function botOrderCompounder(dealData, botParams, bot_index)
         if ((botParams != undefined) && (botParams != NotAssigned))
         {
             //fileprofitconsole.log("Got here:- " + dealData.status)
-            fileconsole.log("OrderCompounder: " +  dealData.id)
-            console.log("Deal data: " + dealData.status)
+            console.log("Control Bot Id " + controlBotId);
+            fileconsole.log("OrderCompounder: " +  dealData.id);
+            console.log("Deal data: " + dealData.status);
             if (dealData.status == 'completed')
             {             
                 // don't run the compounder bit if deal has been compounded already since completing
@@ -606,7 +607,7 @@ function botOrderCompounder(dealData, botParams, bot_index)
                         // with next deal
                         for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                         {
-                            if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == botParams.id)
+                            if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == controlBotId)
                             {
                                 BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = NoDealFound;
                                 console.log("Completed deal reset");
@@ -621,7 +622,7 @@ function botOrderCompounder(dealData, botParams, bot_index)
                     // with next deal
                     for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                     {
-                        if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == botParams.id)
+                        if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == controlBotId)
                         {
                             BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = NoDealFound;
                             console.log("Completed deal reset - already compounded");
@@ -633,7 +634,7 @@ function botOrderCompounder(dealData, botParams, bot_index)
             {
                 for (let bot_index = 0; bot_index < MAX_NO_OF_BOTSPERGROUP; bot_index++)
                 {
-                    if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == botParams.id)
+                    if (BotDataTable[mainLoopIndex][bot_index + BOTS_OFFSET_INDEX] == controlBotId)
                     {
                         BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = NoDealFound;
                         console.log("failed deal reset");
