@@ -394,7 +394,7 @@ const runBotEngine = async () =>
                             }
 */                          
                             console.log("Deal Updater");
-                            
+                            console.log("Deal Updater " + BotGroups[mainLoopIndex]._dealId_Bot[bot_index]);
                             if (BotGroups[mainLoopIndex]._dealId_Bot[bot_index] == NoDealFound)
                             {
                                 BotGroups[mainLoopIndex]._dealId_Bot[bot_index] = botIdDealMatcher(BotGroups[mainLoopIndex]._botId[bot_index], NewdealsData);
