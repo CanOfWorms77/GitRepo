@@ -50,8 +50,8 @@ class botController
       this._dealId_Bot = [ 0, 0, 0, 0, 0 ]
       this._numberOfBotEnables = [ 0, 0, 0, 0, 0 ]
       this._numberOfDealsOpened = [ 0, 0, 0, 0, 0 ]
-      this._maxNumberOfBots = 0;
-      this._prev_dealId_bot = [ 0, 0, 0, 0, 0 ] // Use to stop bot compounder working on same deal if completed
+      this._maxNumberOfBots = 0
+      this._prev_dealId_bot = [ 0, 0, 0, 0, 0 ]; // Use to stop bot compounder working on same deal if completed
    }
 }
 
@@ -141,7 +141,7 @@ const initBotData = async () =>
                 console.log("No Bot " + (bot_index + 1) + " assigned");
             }
 
-            BotGroups[bot_group_no]._prev_dealId_bot = NoDealFound;
+            BotGroups[bot_group_no]._prev_dealId_bot[bot_index] = NoDealFound;
 
         }
 
