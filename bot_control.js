@@ -26,7 +26,7 @@ var BotDataTable =
   ["APTOS", -8.0,  '9950825', '9950832', '9950835', '9950839', '10094889' ],
   ["SOL",   -8.0,  '9954755', '9954761', '9954766', '9954769', '10046411' ],
   ["AVAX",  -8.0,  '9980604', '9980606', '9980607', '9980609', '10247428' ],
-  ["MINA",  -8.0,  '10016516','10016525','10016534','10016544','10247433' ],
+//  ["MINA",  -8.0,  '10016516','10016525','10016534','10016544','10247433' ],
 //  ["BTC",   -3.0,  '10247463','10247471','10247473','10247481','10247484' ],
   ["LAST_ENTRY", null, null, null, null, null, null ],
 ] 
@@ -553,7 +553,7 @@ function botOrderCompounder(dealData, botParams, controlBotId, bot_index)
             console.log("Deal data: " + dealData.status);
             if (dealData.status == 'completed')
             {             
-                // don't run the compounder bit if deal has been compounded already since completing
+                // don't run the compounder bot if deal has been compounded already since completing
                 // and the completed flag just not cleared down yet
                 console.log("Completed Deal Id " + dealData.id);
                 console.log("Previous Deal Id " + BotGroups[mainLoopIndex]._prev_dealId_bot[bot_index]);
